@@ -30,12 +30,27 @@
 #include <ctype.h>
 #include <string.h>
 
-void startNewGame(){
-    //for new game
+void setToZero(int size, int arr[size][size])
+{
 
+    for(int i=0;i<size;i++)
+    {
+        for(int j=0;j<size;j++)
+        {
+            arr[i][j]=0;
+        }
+    }
+}
+
+void SetToOne(int row,int col,int size,int array[size][size])
+{
+    array[row][col]=1;
+}
+void startNewGame()
+{
+    //for new game
     int numOfPlayers;
     char playerOne[10],playerTwo[10],str[10];
-    //playerOne[0]=0;
     int diff,size;
     system("cls");
     printf("For begginer press 1\nFor expert press 2\n");
@@ -65,9 +80,11 @@ void startNewGame(){
     else if(numOfPlayers==2)
     {
         printf("Please enter the name of the first player:\n");
-        gets(playerOne);
+        scanf("%s",playerOne);
+        //gets(playerOne);
         printf("Please enter the name of the second player:\n");
-        gets(playerTwo);
+        scanf("%s",playerTwo);
+        //gets(playerTwo);
         system("cls");
     }
     else
@@ -81,65 +98,95 @@ void startNewGame(){
     printf("Player 1: %s\t\t\t\t\t", playerOne);printf("Player 2: %s", playerTwo);
 
     //dispaying the board
-    system("color 74");
     if(diff==1)
     {
         size=5;
-    }else{size=12;}
-     char dots[size][size];
-     for(int i=0;i<size;i++)
-     {
-         for (int j=0;j<size;j++)
-         {
-             if(i%2==0&&j%2==0)
-             {
-                 dots[i][j]=254;
-             }else
-             dots[i][j]='\t';
-         }
-     }
-     printf("\n\n");
-     for(int i=0;i<size;i++)
-     {printf("\t\t\t\t\t");
-         for (int j=0;j<size;j++)
-         {
-             printf("%c" ,dots[i][j]);
-         }printf("\n");}
-         //game logic
-         //defining the lines in the game and thier color
-             char Hor1,Ver1,Hor2,Ver2;Hor1=254,Hor2=254,Ver1=254,Ver2=254;
-             int noMoves;
+    }
+    else{size=11;}
 
-             int row,column;
-         //for 1 player vs computer
-         if(numOfPlayers==1)
-         {if(diff==1)//beginner//rows and columns must be diffrent not both even or not odd
-         {noMoves=12;
-         while(noMoves>0)
-         {if(noMoves%2==0)//Players turn
-         {printf("Enter the row of the point: ");
-         scanf("%d", &row);
-         printf("Enter the column of the point: ");
-         scanf("%d", &column);
-         /*if(row%2==0&&column%2==0||row%2==1&&column%2==1)
-         {
-             printf("Please enter a valid move");
-             continue;*/
-         //}else{//the move entered is valid
-         if(row%2==1)
-         {
-           dots[row][column]=Hor1;
-         }else{dots[row][column]=Ver1;}
-         noMoves--;
-         }else{//computers turn
-         for(int i=0;i<size;i++)
-         {
-             for(int j=0;j<size;j++)
-             {
-                 if(dots[i][j]==' '&&i%2==0)
-                 {
-                     dots[i][j]=Ver2;
-                 }else if(dots[i][j]==' '&&i%2==1)
-                 {
-                     dots[i][j]=Hor2;
-                 }}}noMoves--;}}}}}
+    int noMoves;
+    if(size==5){noMoves=12;}
+    else{noMoves=60;}
+
+    //passive game board
+
+    char passive[size][size],h=205,v=186;
+    for(int i=0;i<size;i++)
+    {
+        for(int j=0;j<size;j++)
+        {
+            if(i%2==0 && j%2!=0)
+            {
+                passive[i][j]=205;
+            }
+            if(i%2!=0 && j%2==0)
+            {
+                passive[i][j]=186;
+            }
+        }
+    }
+    if(numOfPlayers==2){twoPlayers(noMoves,size, passive, playerOne, playerTwo);}
+}
+
+//two players
+void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
+{
+    int array[size][size];
+    setToZero(size,array);
+    char active[size][size];
+    for(int i=0;i<size;i++)
+    {
+        for(int j=0;j<size;j++)
+        {
+            if(i%2==0&&j%2==0)
+            {
+                active[i][j]=254;
+            }
+            else
+            active[i][j]=' ';
+        }
+    }
+    int  row, col;
+    while(noMoves>=0)
+    {
+        system("cls");
+        printf("\e[0;34mPlayer 1 : %s \t\t\t\e[0;31mPlayer 2: %s\e[0;32m", playerOne, playerTwo );
+        printf("\n\n");
+        for(int i=0;i<size;i++)
+        {
+            printf("\t\t\t\t\t");
+            for (int j=0;j<size;j++)
+            {
+                printf("%c" ,active[i][j]);
+            }
+            printf("\n");
+        }
+
+        reread:
+        if(noMoves%2==0)
+        {
+            printf("\e[0;34mPlayer one turn\n");
+            printf("\e[0;34mEnter number of row: \n");
+            scanf("%d",&row);
+            printf("\e[0;34mEnter number of column: \n\e[0;32m");
+            scanf("%d",&col);
+        }
+        else
+        {
+            printf("\e[0;31mPlayer two turn\n");
+            printf("\e[0;31mEnter number of row: ");
+            scanf("%d",&row);
+            printf("\e[0;31mEnter number of column: \e[0;32m");
+            scanf("%d",&col);
+        }
+        if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+        {
+            printf("Please enter valid numbers\n");
+            goto reread;
+        }
+        array[row][col]=1;
+        active[row][col]=passive[row][col];
+        noMoves--;
+    }
+}
+
