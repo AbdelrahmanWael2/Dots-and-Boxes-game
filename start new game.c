@@ -30,12 +30,56 @@
 #include <ctype.h>
 #include <string.h>
 
+
+//two players beginres
+void twoPlayers(int noMoves,int size, char dots[size][size])
+{
+    int  row, col;
+    while(noMoves>0)
+    {
+        reread:
+        if(noMoves%2==0)
+        {
+            printf("Player one turn\n");
+            printf("Enter number of row: \n");
+            scanf("%d",&row);
+            printf("Enter number of column: \n");
+            scanf("%d",&col);
+        }
+        else
+        {
+            printf("Player two turn\n");
+            printf("Enter number of row: ");
+            scanf("%d",&row);
+            printf("Enter number of column: ");
+            scanf("%d",&col);
+        }
+        if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) )
+        {
+            printf("Please enter valid numbers");
+            goto reread;
+        }
+        //vertical or horizontal lines
+        if(row%2==1 &&col%2==0) {dots[row][col]=186;}
+        else{dots[row][col]=205;}
+        if(noMoves%2==0){printf("\e[0;31m%c\n",dots[row][col]);}
+        else{printf("\e[0;34m%c\n",dots[row][col]);}
+        noMoves--;
+
+    }
+
+}
+
+
+
+
+
+
 void startNewGame(){
     //for new game
 
     int numOfPlayers;
     char playerOne[10],playerTwo[10],str[10];
-    //playerOne[0]=0;
     int diff,size;
     system("cls");
     printf("For begginer press 1\nFor expert press 2\n");
@@ -65,9 +109,11 @@ void startNewGame(){
     else if(numOfPlayers==2)
     {
         printf("Please enter the name of the first player:\n");
-        gets(playerOne);
+        scanf("%s",playerOne);
+        //gets(playerOne);
         printf("Please enter the name of the second player:\n");
-        gets(playerTwo);
+        scanf("%s",playerTwo);
+        //gets(playerTwo);
         system("cls");
     }
     else
@@ -81,65 +127,101 @@ void startNewGame(){
     printf("Player 1: %s\t\t\t\t\t", playerOne);printf("Player 2: %s", playerTwo);
 
     //dispaying the board
-    system("color 74");
     if(diff==1)
     {
         size=5;
-    }else{size=12;}
-     char dots[size][size];
-     for(int i=0;i<size;i++)
-     {
-         for (int j=0;j<size;j++)
-         {
-             if(i%2==0&&j%2==0)
-             {
-                 dots[i][j]=254;
-             }else
-             dots[i][j]='\t';
-         }
-     }
-     printf("\n\n");
-     for(int i=0;i<size;i++)
-     {printf("\t\t\t\t\t");
-         for (int j=0;j<size;j++)
-         {
-             printf("%c" ,dots[i][j]);
-         }printf("\n");}
-         //game logic
-         //defining the lines in the game and thier color
-             char Hor1,Ver1,Hor2,Ver2;Hor1=254,Hor2=254,Ver1=254,Ver2=254;
-             int noMoves;
+    }
+    else{size=11;}
+    char dots[size][size];
+    for(int i=0;i<size;i++)
+    {
+        for(int j=0;j<size;j++)
+        {
+            if(i%2==0&&j%2==0)
+            {
+                dots[i][j]=254;
+            }
+            else
+            dots[i][j]='\t';
+        }
+    }
+    printf("\n\n");
+    for(int i=0;i<size;i++)
+    {
+        printf("\t\t\t\t\t");
+        for (int j=0;j<size;j++)
+        {
+            printf("%c" ,dots[i][j]);
+        }
+        printf("\n");
+    }
+    //game logic
+    //defining the lines in the game
+    int noMoves;
+    if(size==5){noMoves=12;}
+    else{noMoves=60;}
+    int row,column;
 
-             int row,column;
-         //for 1 player vs computer
-         if(numOfPlayers==1)
-         {if(diff==1)//beginner//rows and columns must be diffrent not both even or not odd
-         {noMoves=12;
-         while(noMoves>0)
-         {if(noMoves%2==0)//Players turn
-         {printf("Enter the row of the point: ");
-         scanf("%d", &row);
-         printf("Enter the column of the point: ");
-         scanf("%d", &column);
-         /*if(row%2==0&&column%2==0||row%2==1&&column%2==1)
-         {
-             printf("Please enter a valid move");
-             continue;*/
-         //}else{//the move entered is valid
-         if(row%2==1)
-         {
-           dots[row][column]=Hor1;
-         }else{dots[row][column]=Ver1;}
-         noMoves--;
-         }else{//computers turn
-         for(int i=0;i<size;i++)
-         {
-             for(int j=0;j<size;j++)
-             {
-                 if(dots[i][j]==' '&&i%2==0)
-                 {
-                     dots[i][j]=Ver2;
-                 }else if(dots[i][j]==' '&&i%2==1)
-                 {
-                     dots[i][j]=Hor2;
-                 }}}noMoves--;}}}}}
+    if(numOfPlayers==2){twoPlayers(noMoves,size,dots);}
+
+
+
+
+
+
+
+
+
+    //for 1 player vs computer
+   /* if(numOfPlayers==1)
+    {
+        if(diff==1)//beginner//rows and columns must be diffrent not both even or not odd
+        {
+            noMoves=12;
+            while(noMoves>0)
+            {
+                if(noMoves%2==0)//Players turn
+                {
+                    printf("Enter the row of the line: ");
+                    scanf("%d", &row);
+                    printf("Enter the column of the line: ");
+                    scanf("%d", &column);
+                     /*if(row%2==0&&column%2==0||row%2==1&&column%2==1)
+                     {
+                         printf("Please enter a valid move");
+                         continue;*/
+                     //}else{//the move entered is valid
+                   /*  if(row%2==1)
+                     {
+                       dots[row][column]=Hor1;
+                     }
+                     else{dots[row][column]=Ver1;}
+                     noMoves--;
+                 }
+                 //computers turn
+                 else{
+                         for(int i=0;i<size;i++)
+                         {
+                             for(int j=0;j<size;j++)
+                             {
+                                 if(dots[i][j]==' '&&i%2==0)
+                                 {
+                                     dots[i][j]=Ver2;
+                                 }
+                                 else if(dots[i][j]==' '&&i%2==1)
+                                 {
+                                     dots[i][j]=Hor2;
+                                 }
+                             }
+                         }
+                         noMoves--;
+                     }
+             }
+         }
+     }*/
+
+     //two players
+
+
+
+}
