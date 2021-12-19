@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1639859985 source:e:\test\points_and_boxes\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	"my_headers.h"
+
+1639856787 e:\test\points_and_boxes\my_headers.h
+
+1639864954 source:e:\test\points_and_boxes\start.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+
