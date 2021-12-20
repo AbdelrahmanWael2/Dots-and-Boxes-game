@@ -207,6 +207,8 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
         printf("\n");
         printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
+        printf("\n");
+        printf("\t\t\t\t\t\t\e[0;32mMoves left: %d",noMoves);
         printf("\n\n");
         printf("\t\t\t\t\t\e[0;32m0   1   2   3   4   5   6   7   8   9   10");
         printf("\n");
