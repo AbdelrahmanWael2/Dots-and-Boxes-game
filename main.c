@@ -40,10 +40,12 @@ int startGame(int newGame,int loadGame,int leaderBoards,int exitGame)
     printf("\t\t\t\t\t\tDots and boxes\n\n\nNew game(Press 1):\nLoad Game(Press 2):\nLeaderboards(Press 3):\nExit Game(Press 4):\n\n");
 
     //main menu selection list
+
     int flag;
     label:
+    fflush(stdin);
     scanf("%d",&flag);
-    if(flag>4 || flag<1)
+    if(flag!=1 && flag!=2 && flag!=3 && flag!=4)
     {
         printf("Please enter a valid number: ");
         goto label;
