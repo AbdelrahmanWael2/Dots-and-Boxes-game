@@ -18,7 +18,6 @@
 #define MAGB "\e[45m"
 #define CYNB "\e[46m"
 #define WHTB "\e[47m"
-#include <windows.h>
 #define BLKB "\e[40m"
 #define REDB "\e[41m"
 #define GRNB "\e[42m"
@@ -31,6 +30,15 @@
 #include <string.h>
 #include <windows.h>
 
+/*int isExist(int number,int size)
+{
+    for(int i=0;i<size;i++)
+    {
+        if(number==i){return 1;}
+    }
+    return 0;
+}
+*/
 void setToZero(int size, int arr[size][size])
 {
 
@@ -43,10 +51,41 @@ void setToZero(int size, int arr[size][size])
     }
 }
 
-void SetToOne(int row,int col,int size,int array[size][size])
+
+int checkScore(int score, int row, int col ,int size, int array[size][size],int *turn)
 {
-    array[row][col]=1;
+    int change=0;
+    if(row%2==0 && col%2==1)
+    {
+        if(array[row-2][col]==1&&array[row-1][col-1]==1&&array[row-1][col+1]==1)
+        {
+            score++;
+            change=1;
+        }
+        if(array[row+2][col]==1&&array[row+1][col-1]==1&&array[row+1][col+1]==1)
+        {
+            score++;
+            change=1;
+        }
+    }
+    if(row%2==1 && col%2==0)
+    {
+        if(array[row][col-2]==1&&array[row-1][col-1]==1&&array[row+1][col-1]==1)
+        {
+            score++;
+            change=1;
+        }
+        if(array[row][col+2]==1&&array[row-1][col+1]==1&&array[row+1][col+1]==1)
+        {
+            score++;
+            change=1;
+        }
+    }
+    if(change==1){*turn=!*turn;}
+    return score;
 }
+
+
 void startNewGame()
 {
     //for new game
@@ -134,7 +173,7 @@ void startNewGame()
 void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
 {
     system("color 07");
-    int array[size][size], array1[size][size], array2[size][size];
+    int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0;
     setToZero(size,array);
     setToZero(size,array1);
     setToZero(size,array2);
@@ -156,10 +195,13 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         }
     }
     int  row, col;
+    int turn=0;
     while(noMoves>=0)
     {
         system("cls");
-        printf("\e[0;34mPlayer 1 : %s \t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
+        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
+        printf("\n");
+        printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
         printf("\n\n");
         for(int i=0;i<size;i++)
         {
@@ -215,7 +257,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         }
 
         reread:
-        if(noMoves%2==0)
+        if(turn==0)
         {
             printf("\e[0;34mPlayer one turn\n");
             printf("\e[0;34mEnter number of row: \n");
@@ -227,7 +269,12 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 printf("Please enter valid numbers\n");
                 goto reread;
             }
+            score1=checkScore(score1,row,col,size,array,&turn);
             array1[row][col]=1;
+            array[row][col]=1;
+            active[row][col]=passive[row][col];
+            noMoves--;
+            turn=!turn;
         }
         else
         {
@@ -241,11 +288,16 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 printf("Please enter valid numbers\n");
                 goto reread;
             }
+            score2=checkScore(score2,row,col,size,array,&turn);
             array2[row][col]=1;
+            array[row][col]=1;
+            active[row][col]=passive[row][col];
+            noMoves--;
+            turn=!turn;
         }
 
-        array[row][col]=1;
-        active[row][col]=passive[row][col];
-        noMoves--;
+
+
+
     }
 }
