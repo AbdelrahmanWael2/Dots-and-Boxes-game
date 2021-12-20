@@ -29,6 +29,7 @@
 #define WHTB "\e[47m"
 #include <ctype.h>
 #include <string.h>
+#include <windows.h>
 
 void setToZero(int size, int arr[size][size])
 {
@@ -117,11 +118,11 @@ void startNewGame()
         {
             if(i%2==0 && j%2!=0)
             {
-                passive[i][j]=205;
+                passive[i][j]=h;
             }
             if(i%2!=0 && j%2==0)
             {
-                passive[i][j]=186;
+                passive[i][j]=v;
             }
         }
     }
@@ -129,10 +130,14 @@ void startNewGame()
 }
 
 //two players
+
 void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
 {
-    int array[size][size];
+    system("color 07");
+    int array[size][size], array1[size][size], array2[size][size];
     setToZero(size,array);
+    setToZero(size,array1);
+    setToZero(size,array2);
     char active[size][size];
     for(int i=0;i<size;i++)
     {
@@ -143,21 +148,68 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 active[i][j]=254;
             }
             else
-            active[i][j]=' ';
+            {
+                if(i%2==1 && j%2==0){active[i][j]='\0';}
+                else{active[i][j]='\t';}
+            }
+
         }
     }
     int  row, col;
     while(noMoves>=0)
     {
         system("cls");
-        printf("\e[0;34mPlayer 1 : %s \t\t\t\e[0;31mPlayer 2: %s\e[0;32m", playerOne, playerTwo );
+        printf("\e[0;34mPlayer 1 : %s \t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
         printf("\n\n");
         for(int i=0;i<size;i++)
         {
             printf("\t\t\t\t\t");
             for (int j=0;j<size;j++)
             {
-                printf("%c" ,active[i][j]);
+                if(array1[i][j]==1)
+                {
+                    if(i%2==0 && j%2==1)
+                    {
+                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c" ,active[i][j]);
+                    }
+                    else
+                    {
+
+                        printf("\e[0;34m%c" ,active[i][j]);
+
+                    }
+                }
+                else
+                {
+                    if(array2[i][j]==1)
+                    {
+                        if(i%2==0 && j%2==1)
+                        {
+                            printf("\e[0;31m%c" ,active[i][j]);
+                            printf("\e[0;31m%c" ,active[i][j]);
+                            printf("\e[0;31m%c" ,active[i][j]);
+                            printf("\e[0;31m%c" ,active[i][j]);
+                            printf("\e[0;31m%c" ,active[i][j]);
+                            printf("\e[0;31m%c" ,active[i][j]);
+                            printf("\e[0;31m%c" ,active[i][j]);
+                        }
+                        else
+                        {
+                            printf("\e[0;31m%c" ,active[i][j]);
+                        }
+                    }
+                    else
+                    {
+                        printf("\e[0;32m%c" ,active[i][j]);
+                    }
+                }
+
             }
             printf("\n");
         }
@@ -168,25 +220,32 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             printf("\e[0;34mPlayer one turn\n");
             printf("\e[0;34mEnter number of row: \n");
             scanf("%d",&row);
-            printf("\e[0;34mEnter number of column: \n\e[0;32m");
+            printf("\e[0;34mEnter number of column: \n");
             scanf("%d",&col);
+            if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+            {
+                printf("Please enter valid numbers\n");
+                goto reread;
+            }
+            array1[row][col]=1;
         }
         else
         {
             printf("\e[0;31mPlayer two turn\n");
             printf("\e[0;31mEnter number of row: ");
             scanf("%d",&row);
-            printf("\e[0;31mEnter number of column: \e[0;32m");
+            printf("\e[0;31mEnter number of column: ");
             scanf("%d",&col);
+            if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+            {
+                printf("Please enter valid numbers\n");
+                goto reread;
+            }
+            array2[row][col]=1;
         }
-        if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
-        {
-            printf("Please enter valid numbers\n");
-            goto reread;
-        }
+
         array[row][col]=1;
         active[row][col]=passive[row][col];
         noMoves--;
     }
 }
-
