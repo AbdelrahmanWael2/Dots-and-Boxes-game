@@ -95,6 +95,7 @@ void startNewGame()
     system("cls");
     printf("For begginer press 1\nFor expert press 2\n");
     label:
+    fflush(stdin);
     scanf("%d",&diff);
     if(diff!=1 && diff!=2)
     {
@@ -106,13 +107,14 @@ void startNewGame()
     system("cls");
     printf("One player:(Press 1)\nTwo players:(press 2)\n\n\n");
     label2:
+    fflush(stdin);
     scanf("%d",&numOfPlayers);
 
     if(numOfPlayers==1)
     {
         printf("Please enter your name\n\n");
-        scanf("%s",playerOne);
-        //gets(playerOne);
+        //scanf("%s",playerOne);
+        gets(playerOne);
         strcpy(str, "Computer");
         strcpy(playerTwo, str);
         system("cls");
@@ -121,10 +123,12 @@ void startNewGame()
     {
         printf("Please enter the name of the first player:\n");
         scanf("%s",playerOne);
-        //gets(playerOne);
+        /*int i=0;
+        while(playerOne[i]!='\n')
+            {gets(playerOne);i++;}*/
         printf("Please enter the name of the second player:\n");
         scanf("%s",playerTwo);
-        //gets(playerTwo);
+
         system("cls");
     }
     else
@@ -166,6 +170,7 @@ void startNewGame()
         }
     }
     if(numOfPlayers==2){twoPlayers(noMoves,size, passive, playerOne, playerTwo);}
+    //else{onePlayer();}
 }
 
 //two players
@@ -203,9 +208,13 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         printf("\n");
         printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
         printf("\n\n");
+        printf("\t\t\t\t\t\e[0;32m0   1   2   3   4   5   6   7   8   9   10");
+        printf("\n");
         for(int i=0;i<size;i++)
         {
-            printf("\t\t\t\t\t");
+
+            printf("\t\t\t\t\e[0;32m%d",i);
+            printf("\t");
             for (int j=0;j<size;j++)
             {
                 if(array1[i][j]==1)
@@ -257,6 +266,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         }
 
         reread:
+        fflush(stdin);
         if(turn==0)
         {
             printf("\e[0;34mPlayer one turn\n");
