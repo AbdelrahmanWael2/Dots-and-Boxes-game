@@ -53,7 +53,7 @@ void setToZero(int size, int arr[size][size])
 }
 
 
-int checkScore(int score, int row, int col ,int size, int array[size][size],int *turn)
+int checkScore(int score, int row, int col ,int size, int array[size][size],int *turn,int arrayPlayer[size][size])
 {
     int change=0;
     if(row%2==0 && col%2==1)
@@ -64,6 +64,7 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
             {
                 score++;
                 change=1;
+                arrayPlayer[row+1][col]=1;
             }
         }
         else
@@ -74,6 +75,7 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 {
                     score++;
                     change=1;
+                    arrayPlayer[row-1][col]=1;
                 }
             }
             else
@@ -82,11 +84,13 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 {
                     score++;
                     change=1;
+                    arrayPlayer[row-1][col]=1;
                 }
                 if(array[row+2][col]==1&&array[row+1][col-1]==1&&array[row+1][col+1]==1)
                 {
                     score++;
                     change=1;
+                    arrayPlayer[row+1][col]=1;
                 }
             }
         }
@@ -100,6 +104,7 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
             {
                 score++;
                 change=1;
+                arrayPlayer[row][col+1]=1;
             }
         }
         else
@@ -110,6 +115,7 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 {
                     score++;
                     change=1;
+                    arrayPlayer[row][col-1]=1;
                 }
             }
             else
@@ -118,14 +124,16 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 {
                     score++;
                     change=1;
+                    arrayPlayer[row][col-1]=1;
                 }
                 if(array[row][col+2]==1&&array[row-1][col+1]==1&&array[row+1][col+1]==1)
                 {
                     score++;
                     change=1;
+                    arrayPlayer[row][col+1]=1;
                 }
             }
-               
+
         }
 
     }
@@ -202,23 +210,27 @@ void startNewGame()
 
     //passive game board
 
-    char passive[size][size],h=205,v=186;
+    char passive[size][size],h=205,v=186,b=219;
     for(int i=0;i<size;i++)
     {
         for(int j=0;j<size;j++)
         {
-            if(i%2==0 && j%2!=0)
+            if(i%2==0 && j%2==1)
             {
                 passive[i][j]=h;
             }
-            if(i%2!=0 && j%2==0)
+            if(i%2==1 && j%2==0)
             {
                 passive[i][j]=v;
+            }
+            if(i%2==1 && j%2==1)
+            {
+                passive[i][j]=b;
             }
         }
     }
     if(numOfPlayers==2){twoPlayers(noMoves,size, passive, playerOne, playerTwo);}
-    if(numOfPlayers==0){onePlayer(noMoves,size, passive, playerOne, playerTwo);}
+//    if(numOfPlayers==0){onePlayer(noMoves,size, passive, playerOne, playerTwo);}
 }
 
 //two players
@@ -242,7 +254,10 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             else
             {
                 if(i%2==1 && j%2==0){active[i][j]='\0';}
-                else{active[i][j]='\t';}
+                else
+                {
+                    active[i][j]='\t';
+                }
             }
 
         }
@@ -258,32 +273,38 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         printf("\n");
         printf("\t\t\t\t\t\t\e[0;32mMoves left: %d",noMoves);
         printf("\n\n");
+        printf("\t\t\t\t\t");
         for(int i=0;i<size;i++){printf("\e[0;32m%d   ",i);}
         printf("\n");
         for(int i=0;i<size;i++)
         {
-
             printf("\t\t\t\t\e[0;32m%d",i);
             printf("\t");
             for (int j=0;j<size;j++)
             {
                 if(array1[i][j]==1)
                 {
-                    if(i%2==0 && j%2==1)
+                    if(i%2==1 && j%2==1)
                     {
-                        printf("\e[0;34m%c" ,active[i][j]);
-                        printf("\e[0;34m%c" ,active[i][j]);
-                        printf("\e[0;34m%c" ,active[i][j]);
-                        printf("\e[0;34m%c" ,active[i][j]);
-                        printf("\e[0;34m%c" ,active[i][j]);
-                        printf("\e[0;34m%c" ,active[i][j]);
-                        printf("\e[0;34m%c" ,active[i][j]);
+                        printf("\e[0;34m%c",active[i][j]);
                     }
                     else
                     {
+                        if(i%2==0 && j%2==1)
+                        {
+                            printf("\e[0;34m%c" ,active[i][j]);
+                            printf("\e[0;34m%c" ,active[i][j]);
+                            printf("\e[0;34m%c" ,active[i][j]);
+                            printf("\e[0;34m%c" ,active[i][j]);
+                            printf("\e[0;34m%c" ,active[i][j]);
+                            printf("\e[0;34m%c" ,active[i][j]);
+                            printf("\e[0;34m%c" ,active[i][j]);
+                        }
+                        else
+                        {
+                            printf("\e[0;34m%c" ,active[i][j]);
 
-                        printf("\e[0;34m%c" ,active[i][j]);
-
+                        }
                     }
                 }
                 else
@@ -310,10 +331,11 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                         printf("\e[0;32m%c" ,active[i][j]);
                     }
                 }
-
             }
             printf("\n");
         }
+
+
 
         reread:
         fflush(stdin);
@@ -331,9 +353,10 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
-                score1=checkScore(score1,row,col,size,array,&turn);
+                score1=checkScore(score1,row,col,size,array,&turn,array1);
                 array1[row][col]=1;
                 array[row][col]=1;
+
                 active[row][col]=passive[row][col];
                 noMoves--;
                 turn=!turn;
@@ -350,7 +373,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
-                score2=checkScore(score2,row,col,size,array,&turn);
+                score2=checkScore(score2,row,col,size,array,&turn,array2);
                 array2[row][col]=1;
                 array[row][col]=1;
                 active[row][col]=passive[row][col];
@@ -360,15 +383,18 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         }
         else{break;}
     }
-    if(score1>score2)
-    {
-        printf("END GAME \e[0;34m%S \e[0;32mWON!",playerOne);
-    }
-    else
-    {
-        printf("END GAME \e[0;31m%S \e[0;32mWON!",playerTwo);
-    }
+
+
+        if(score1>score2)
+        {
+            printf("END GAME THE WINNER IS \e[0;34m%s!",playerOne);
+        }
+        else
+        {
+            printf("END GAME THE WINNER IS \e[0;31m%s!",playerTwo);
+        }
 }
+
 
 void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
 {
@@ -494,7 +520,10 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
             array[row][col]=1;
             active[row][col]=passive[row][col];
             noMoves--;
-            turn=!turn;}}}
+            turn=!turn;
+        }
+    }
+}
 
 
 
