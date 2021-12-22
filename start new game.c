@@ -58,29 +58,76 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
     int change=0;
     if(row%2==0 && col%2==1)
     {
-        if(array[row-2][col]==1&&array[row-1][col-1]==1&&array[row-1][col+1]==1)
+        if(row==0)
         {
-            score++;
-            change=1;
+            if(array[row+2][col]==1&&array[row+1][col-1]==1&&array[row+1][col+1]==1)
+            {
+                score++;
+                change=1;
+            }
         }
-        if(array[row+2][col]==1&&array[row+1][col-1]==1&&array[row+1][col+1]==1)
+        else
         {
-            score++;
-            change=1;
+            if(row==size-1)
+            {
+                if(array[row-2][col]==1&&array[row-1][col-1]==1&&array[row-1][col+1]==1)
+                {
+                    score++;
+                    change=1;
+                }
+            }
+            else
+            {
+                if(array[row-2][col]==1&&array[row-1][col-1]==1&&array[row-1][col+1]==1)
+                {
+                    score++;
+                    change=1;
+                }
+                if(array[row+2][col]==1&&array[row+1][col-1]==1&&array[row+1][col+1]==1)
+                {
+                    score++;
+                    change=1;
+                }
+            }
         }
+
     }
     if(row%2==1 && col%2==0)
     {
-        if(array[row][col-2]==1&&array[row-1][col-1]==1&&array[row+1][col-1]==1)
+        if(col==0)
         {
-            score++;
-            change=1;
+            if(array[row][col+2]==1&&array[row-1][col+1]==1&&array[row+1][col+1]==1)
+            {
+                score++;
+                change=1;
+            }
         }
-        if(array[row][col+2]==1&&array[row-1][col+1]==1&&array[row+1][col+1]==1)
+        else
         {
-            score++;
-            change=1;
+            if(col==size-1)
+            {
+                if(array[row][col-2]==1&&array[row-1][col-1]==1&&array[row+1][col-1]==1)
+                {
+                    score++;
+                    change=1;
+                }
+            }
+            else
+            {
+                if(array[row][col-2]==1&&array[row-1][col-1]==1&&array[row+1][col-1]==1)
+                {
+                    score++;
+                    change=1;
+                }
+                if(array[row][col+2]==1&&array[row-1][col+1]==1&&array[row+1][col+1]==1)
+                {
+                    score++;
+                    change=1;
+                }
+            }
+               
         }
+
     }
     if(change==1){*turn=!*turn;}
     return score;
@@ -211,7 +258,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         printf("\n");
         printf("\t\t\t\t\t\t\e[0;32mMoves left: %d",noMoves);
         printf("\n\n");
-        printf("\t\t\t\t\t\e[0;32m0   1   2   3   4   5   6   7   8   9   10");
+        for(int i=0;i<size;i++){printf("\e[0;32m%d   ",i);}
         printf("\n");
         for(int i=0;i<size;i++)
         {
@@ -270,48 +317,56 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
 
         reread:
         fflush(stdin);
-        if(turn==0)
+        if(noMoves>0)
         {
-            printf("\e[0;34mPlayer one turn\n");
-            printf("\e[0;34mEnter number of row: \n");
-            scanf("%d",&row);
-            printf("\e[0;34mEnter number of column: \n");
-            scanf("%d",&col);
-            if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+            if(turn==0)
             {
-                printf("Please enter valid numbers\n");
-                goto reread;
+                printf("\e[0;34mPlayer one turn\n");
+                printf("\e[0;34mEnter number of row: \n");
+                scanf("%d",&row);
+                printf("\e[0;34mEnter number of column: \n");
+                scanf("%d",&col);
+                if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+                {
+                    printf("Please enter valid numbers\n");
+                    goto reread;
+                }
+                score1=checkScore(score1,row,col,size,array,&turn);
+                array1[row][col]=1;
+                array[row][col]=1;
+                active[row][col]=passive[row][col];
+                noMoves--;
+                turn=!turn;
             }
-            score1=checkScore(score1,row,col,size,array,&turn);
-            array1[row][col]=1;
-            array[row][col]=1;
-            active[row][col]=passive[row][col];
-            noMoves--;
-            turn=!turn;
-        }
-        else
-        {
-            printf("\e[0;31mPlayer two turn\n");
-            printf("\e[0;31mEnter number of row: ");
-            scanf("%d",&row);
-            printf("\e[0;31mEnter number of column: ");
-            scanf("%d",&col);
-            if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+            else
             {
-                printf("Please enter valid numbers\n");
-                goto reread;
+                printf("\e[0;31mPlayer two turn\n");
+                printf("\e[0;31mEnter number of row: ");
+                scanf("%d",&row);
+                printf("\e[0;31mEnter number of column: ");
+                scanf("%d",&col);
+                if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+                {
+                    printf("Please enter valid numbers\n");
+                    goto reread;
+                }
+                score2=checkScore(score2,row,col,size,array,&turn);
+                array2[row][col]=1;
+                array[row][col]=1;
+                active[row][col]=passive[row][col];
+                noMoves--;
+                turn=!turn;
             }
-            score2=checkScore(score2,row,col,size,array,&turn);
-            array2[row][col]=1;
-            array[row][col]=1;
-            active[row][col]=passive[row][col];
-            noMoves--;
-            turn=!turn;
         }
-
-
-
-
+        else{break;}
+    }
+    if(score1>score2)
+    {
+        printf("END GAME \e[0;34m%S WON!",playerOne);
+    }
+    else
+    {
+        printf("END GAME \e[0;31m%S WON!",playerTwo);
     }
 }
 
