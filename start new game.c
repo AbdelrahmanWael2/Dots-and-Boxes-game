@@ -31,15 +31,7 @@
 #include <windows.h>
 #include "my_headers.h"
 
-/*int isExist(int number,int size)
-{
-    for(int i=0;i<size;i++)
-    {
-        if(number==i){return 1;}
-    }
-    return 0;
-}
-*/
+
 void setToZero(int size, int arr[size][size])
 {
 
@@ -146,7 +138,7 @@ void startNewGame()
 {
     //for new game
     int numOfPlayers;
-    char playerOne[10],playerTwo[10],str[10];
+    char playerOne[10],playerTwo[10],str[10]="Computer";
     int diff,size;
     system("cls");
     printf("For begginer press 1\nFor expert press 2\n");
@@ -171,8 +163,8 @@ void startNewGame()
         printf("Please enter your name\n\n");
         scanf("%s",playerOne);
         //gets(playerOne);
-        strcpy(str, "Computer");
         strcpy(playerTwo, str);
+
         system("cls");
     }
     else if(numOfPlayers==2)
@@ -230,13 +222,13 @@ void startNewGame()
         }
     }
     if(numOfPlayers==2){twoPlayers(noMoves,size, passive, playerOne, playerTwo);}
-//    if(numOfPlayers==0){onePlayer(noMoves,size, passive, playerOne, playerTwo);}
+   if(numOfPlayers==1){onePlayer(noMoves,size, passive, playerOne, playerTwo);}
 }
 
 //two players
 
 void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
-{
+{    int arrayPlayer[size][size];
     system("color 07");
     int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0;
     setToZero(size,array);
@@ -353,7 +345,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
-                score1=checkScore(score1,row,col,size,array,&turn,array1);
+                score1=checkScore(score1,row,col,size,array,&turn,arrayPlayer);
                 array1[row][col]=1;
                 array[row][col]=1;
 
@@ -373,7 +365,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
-                score2=checkScore(score2,row,col,size,array,&turn,array2);
+                score2=checkScore(score2,row,col,size,array,&turn,arrayPlayer);
                 array2[row][col]=1;
                 array[row][col]=1;
                 active[row][col]=passive[row][col];
@@ -397,7 +389,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
 
 
 void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
-{
+{   int arrayPlayer[size][size];
     system("color 07");
     int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0;
     setToZero(size,array);
@@ -490,6 +482,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
 
         reread:
         fflush(stdin);
+        if(noMoves>0){
         if(turn==0)
         {   //player one turn
             printf("\e[0;34mPlayer one turn\n");
@@ -502,7 +495,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                 printf("Please enter valid numbers\n");
                 goto reread;
             }
-            score1=checkScore(score1,row,col,size,array,&turn);
+            score1=checkScore(score1,row,col,size,array,&turn, arrayPlayer);
             array1[row][col]=1;
             array[row][col]=1;
             active[row][col]=passive[row][col];
@@ -515,14 +508,26 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
             AI(size, array, &row, &col);
 
 
-            score2=checkScore(score2,row,col,size,array,&turn);
+            score2=checkScore(score2,row,col,size,array,&turn, arrayPlayer);
             array2[row][col]=1;
             array[row][col]=1;
             active[row][col]=passive[row][col];
             noMoves--;
             turn=!turn;
         }
+        }
+        else{break;}
     }
+
+
+        if(score1>score2)
+        {
+            printf("END GAME THE WINNER IS \e[0;34m%s!",playerOne);
+        }
+        else
+        {
+            printf("END GAME THE WINNER IS \e[0;31m%s!",playerTwo);
+        }
 }
 
 
