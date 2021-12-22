@@ -52,7 +52,7 @@
             {
             for(int j=1;j<size;j=j+2)       //we found any horizontal place to put line
             {if(array[i][j]==0){
-                *rowx=i;colx=j;played=1;break;}}}}}
+                *rowx=i;*colx=j;played=1;break;}}}}}
 
 
             if(goodmove==0 && badmove==1 && played==0)
@@ -107,7 +107,8 @@
                 for(int a=1;a<size;a=a+2)
                 {
                 for(int b=0;b<size;b=b+2)
-                {if(array[a][b]==0){
+                {s1=0;s2=0;
+                if(array[a][b]==0){
                 if(array[a-1][b-1]==1){s1++;}
                 if(array[a][b-2]==1){s1++;}
                 if(array[a+1][b-1]==1){s1++;}
@@ -122,7 +123,8 @@
                 for(int a=0;a<size;a=a+2)
                     {
                     for(int b=1;b<size;b=b+2)
-                    {if(array[a][b]==0){
+                    {s3=0;s4=0;
+                        if(array[a][b]==0){
                         if(array[a+2][b]==1){s3++;}
                         if(array[a+1][b-1]==1){s3++;}
                         if(array[a+1][b+1]==1){s3++;}
