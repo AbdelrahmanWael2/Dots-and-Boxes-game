@@ -362,11 +362,11 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
     }
     if(score1>score2)
     {
-        printf("END GAME \e[0;34m%S WON!",playerOne);
+        printf("END GAME \e[0;34m%S \e[0;32mWON!",playerOne);
     }
     else
     {
-        printf("END GAME \e[0;31m%S WON!",playerTwo);
+        printf("END GAME \e[0;31m%S \e[0;32mWON!",playerTwo);
     }
 }
 
