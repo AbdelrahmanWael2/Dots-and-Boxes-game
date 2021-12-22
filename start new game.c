@@ -529,10 +529,3 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
             printf("END GAME THE WINNER IS \e[0;31m%s!",playerTwo);
         }
 }
-
-
-
-
-
-
-
