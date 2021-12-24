@@ -435,7 +435,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                 printf("\e[0;34mEnter number of column: \n");
                 scanf("%d",&col);
                 if(row==-3 && col==-3){saveGame(size,0,1,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
-                if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+                if( (row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
                 {
                     printf("Please enter valid numbers\n");
                     goto reread;
