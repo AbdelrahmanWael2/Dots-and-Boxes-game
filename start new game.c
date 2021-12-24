@@ -639,7 +639,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 scanf("%d",&row);
                 printf("\e[0;34mEnter number of column: \n");
                 scanf("%d",&col);
-                if(row==-3 && col==-3){saveGame(size,0,1,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
+                if(row==-3 && col==-3){saveGame(size,0,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
                 //undo for player 2
                 if(row==-1 && col==-1)
                 {
@@ -652,7 +652,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                         noMoves++;counter2--;goto label5;
                     }
                 }
-                else{stor1[i]=row; stoc1[i]=col;i++;} if((row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+                else{stor1[i]=row; stoc1[i]=col;i++;} if((row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
                 {
                     printf("Please enter valid numbers\n");
                     goto reread;
@@ -674,7 +674,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 scanf("%d",&row);
                 printf("\e[0;31mEnter number of column: ");
                 scanf("%d",&col);
-                if(row==-3 && col==-3){saveGame(size,0,1,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
+                if(row==-3 && col==-3){saveGame(size,1,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
                 //undo for player 1
                 if(row==-1 && col==-1)
                 {
@@ -688,7 +688,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     }
                 }
                 else{stor2[j]=row;stoc2[j]=col;j++;}
-                if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+                if( (row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
                 {
                     printf("Please enter valid numbers\n");
                     goto reread;
