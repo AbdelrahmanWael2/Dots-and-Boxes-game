@@ -60,5 +60,7 @@ int main()
     int newGame=0,loadGame=0,leaderBoards=0,exitGame=0;
     int flag=startGame(newGame,loadGame,leaderBoards,exitGame);
     if(flag==1)startNewGame();
+    if(flag==2)loadedGames();
+    if(flag==3)leaderBoared();
     return 0;
 }
