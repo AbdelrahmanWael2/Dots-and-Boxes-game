@@ -1,5 +1,17 @@
 # depslib dependency file v1.0
-1639859985 source:e:\test\points_and_boxes\main.c
+1640743832 source:c:\users\user\desktop\repo-main\ai.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	<windows.h>
+	"my_headers.h"
+
+1640794311 c:\users\user\desktop\repo-main\my_headers.h
+
+1640743832 source:c:\users\user\desktop\repo-main\leader boared.c
 	<stdio.h>
 	<stdlib.h>
 	<stdio.h>
@@ -9,12 +21,43 @@
 	<string.h>
 	"my_headers.h"
 
-1639856787 e:\test\points_and_boxes\my_headers.h
-
-1639864954 source:e:\test\points_and_boxes\start.c
+1640794350 source:c:\users\user\desktop\repo-main\loadedgames.c
+	<stdio.h>
+	<stdlib.h>
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 	<ctype.h>
 	<string.h>
+	"my_headers.h"
+
+1640791566 source:c:\users\user\desktop\repo-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	"my_headers.h"
+
+1640794567 source:c:\users\user\desktop\repo-main\functions.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	"my_headers.h"
+
+1640794253 source:c:\users\user\desktop\repo-main\start new game.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	<windows.h>
+	"my_headers.h"
 

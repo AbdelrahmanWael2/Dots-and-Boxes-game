@@ -31,11 +31,23 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Unit filename="../repo-main/AI.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="my_headers.h" />
-		<Unit filename="start.c">
+		<Unit filename="../repo-main/functions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../repo-main/leader boared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../repo-main/loadedGames.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../repo-main/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../repo-main/my_headers.h" />
+		<Unit filename="../repo-main/start new game.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
