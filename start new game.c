@@ -65,6 +65,10 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
     }
     int  row, col;
     int turn=0;
+    time_t start, end;
+    float sec=0.0;
+    int min=0;
+    start=time(NULL);
     while(noMoves>=0)
     {
         system("cls");
@@ -78,7 +82,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
         printf("\n");
         printf("To save game choose -3 for row and -3 for col");
         printf("\n");
-        printf("\t\t\t\t\t\t\e[0;32mMoves left: %d",noMoves);
+        printf("\t\t\t\t\e[0;32mMoves left: %d\t\ttime %d:%.0f",noMoves,min,sec);
         printf("\n\n");
         printf("\t\t\t\t\t");
         for(int i=0;i<size;i++){printf("\e[0;32m%d   ",i);}
@@ -94,7 +98,8 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                     if(i%2==1 && j%2==1)
                     {
                         active[i][j]=passive[i][j];
-                        printf("\e[0;34m%c",active[i][j]);
+                        //printf("\e[0;34m%c",active[i][j]);
+                        printf(" ");
                         printf("\e[0;34m%c",active[i][j]);
                         printf("\e[0;34m%c",active[i][j]);
                         printf("\e[0;34m%c",active[i][j]);
@@ -126,7 +131,8 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                         if(i%2==1 && j%2==1)
                         {
                             active[i][j]=passive[i][j];
-                            printf("\e[0;31m%c",active[i][j]);
+                            //printf("\e[0;31m%c",active[i][j]);
+                            printf(" ");
                             printf("\e[0;31m%c",active[i][j]);
                             printf("\e[0;31m%c",active[i][j]);
                             printf("\e[0;31m%c",active[i][j]);
@@ -201,6 +207,13 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
             }
         }
         else{break;}
+        end=time(NULL);
+        sec=difftime(end,start);
+        if(sec>=60)
+        {
+            min=sec/60;
+            sec=sec-min*60;
+        }
     }
 
         if(score1>score2)
@@ -227,7 +240,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
             int loop;
             printf("\e[0;32mTo main menu press 1\nExit press 2\n");
             scanf("%d",&loop);
-            if(loop!=1 && loop!=2)
+            if(loop!=1 && loop!=2 && loop!=3)
             {
                 printf("Please enter a valid number: ");
                 goto endGame;
@@ -237,14 +250,18 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                 system("cls");
                 main();
             }
-        //end game function
-
+            if(loop==3)
+            {
+                system("cls");
+                leaderBoared();
+            }
+            if(loop==2)exit(-1);
 
 }
 
 
 
-//two players
+//two players mode
 void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
 {
     int counter=0, counter2=0;int i=0, j=0;
@@ -275,6 +292,10 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
     }
     int  row, col;
     int turn=0;
+    time_t start, end;
+    float sec=0.0;
+    int min=0;
+    start=time(NULL);
     while(noMoves>=0)
     {
         system("cls");
@@ -288,7 +309,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
         printf("\n");
         printf("To save game choose -3 for row and -3 for col");
         printf("\n");
-        printf("\t\t\t\t\t\t\t\e[0;32mMoves left: %d",noMoves);
+        printf("\t\t\t\t\e[0;32mMoves left: %d\t\ttime %d:%.0f",noMoves,min,sec);
         printf("\n\n");
         printf("\t\t\t\t\t\t");
         for(int i=0;i<size;i++){printf("\e[0;32m%d   ",i);}
@@ -304,7 +325,8 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     if(i%2==1 && j%2==1)
                     {
                         active[i][j]=passive[i][j];
-                        printf("\e[0;34m%c",active[i][j]);
+                        //printf("\e[0;34m%c",active[i][j]);
+                        printf(" ");
                         printf("\e[0;34m%c",active[i][j]);
                         printf("\e[0;34m%c",active[i][j]);
                         printf("\e[0;34m%c",active[i][j]);
@@ -336,7 +358,8 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                         if(i%2==1 && j%2==1)
                         {
                             active[i][j]=passive[i][j];
-                            printf("\e[0;31m%c",active[i][j]);
+                            //printf("\e[0;31m%c",active[i][j]);
+                            printf(" ");
                             printf("\e[0;31m%c",active[i][j]);
                             printf("\e[0;31m%c",active[i][j]);
                             printf("\e[0;31m%c",active[i][j]);
@@ -454,6 +477,13 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             }
         }
         else{break;}
+        end=time(NULL);
+        sec=difftime(end,start);
+        if(sec>=60)
+        {
+            min=sec/60;
+            sec=sec-min*60;
+        }
     }
 
 
@@ -481,7 +511,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             int loop;
             printf("\e[0;32mTo main menu press 1\nExit press 2\n");
             scanf("%d",&loop);
-            if(loop!=1 && loop!=2)
+            if(loop!=1 && loop!=2 && loop!=3)
             {
                 printf("Please enter a valid number: ");
                 goto endGame;
@@ -491,7 +521,13 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 system("cls");
                 main();
             }
-        //end game function
+            if(loop==3)
+            {
+                system("cls");
+                leaderBoared();
+
+            }
+            if(loop==2)exit(-1);
 }
 
 void startNewGame()
@@ -582,5 +618,4 @@ void startNewGame()
     }
     if(numOfPlayers==2){twoPlayers(noMoves,size, passive, playerOne, playerTwo);}
     if(numOfPlayers==1){onePlayer(noMoves,size, passive, playerOne, playerTwo);}
-
 }
