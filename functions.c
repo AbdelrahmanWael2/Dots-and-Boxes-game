@@ -277,29 +277,6 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void  undo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size],   int removedline[20], int undos)
 {   int temprow, tempcol;
 
