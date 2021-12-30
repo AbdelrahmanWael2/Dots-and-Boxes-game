@@ -70,7 +70,8 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
     int min=0;
     start=time(NULL);
     while(noMoves>=0)
-    {   label4:
+    {
+        label4:
         system("cls");
         printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
         printf("\n");
@@ -178,42 +179,44 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                 printf("\e[0;34mEnter number of column: \n");
                 scanf("%d",&col);
                 if(row==-3 && col==-3){saveGame(size,0,1,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2, turnArray, counter, stor, stoc);goto endGame;}
-                if(row==-2 && col==-2){
-                if(undos == 0){printf("No moves to redo");}
+                if(row==-2 && col==-2)
+                {
+                    if(undos == 0){printf("No moves to redo");}
+                        else
+                        {
+                            redo1(&score1, &score2, counter, stor, stoc, size, array2, array1, array, active, turn, removedlines, undos, passive );undos--;
+                            counter++;noMoves--;goto label4;
+                        }
+                }
+                if(row == -1 && col == -1)
+                {
+                    if(counter==0){printf("no more undo");}
                     else
-
                     {
-                        redo1(&score1, &score2, counter, stor, stoc, size, array2, array1, array, active, turn, removedlines, undos, passive );undos--;
-                        counter++;noMoves--;goto label4;
+                        do
+                        {undo1(&score1, &score2 , counter, stor, stoc, size, array2,array1, array, active, removedlines, undos );
+                        noMoves++;undos++;counter--;
+                        }while(turnArray[counter]==1);
+                        goto label4;
+
                     }
+                }
 
 
-
-                 }
-                if(row == -1 && col == -1){
-                        if(counter==0){printf("no more undo");}else{
-
-                        undo1(&score1, &score2 , counter, stor, stoc, size, array2,array1, array, active, removedlines, undos );noMoves++;undos++;counter--;goto label4;
-
-                }}
-
-                 else{stor[counter]=row; stoc[counter]=col;counter++;
                 if( (row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
                 {
                     printf("Please enter valid numbers\n");
                     goto reread;
-                }}
+                }
+                stor[counter]=row;
+                stoc[counter]=col;
+                turnArray[counter]=turn;
+                counter++;
                 array1[row][col]=1;
                 array[row][col]=1;
-                //counter++;
                 score1=checkScore(score1,row,col,size,array,&turn,array1);
                 if(array[row][col]==1){active[row][col]=passive[row][col];}
-
-
                 noMoves--;
-
-
-
                 turn=!turn;
 
             }
@@ -222,11 +225,11 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                 AI(size, array, &row, &col);
                 array2[row][col]=1;
                 array[row][col]=1;
-                stor[counter]=row;stoc[counter]=col;counter++;
-                //tempchange2=change;
+                stor[counter]=row;stoc[counter]=col;
+                turnArray[counter]=turn;
+                counter++;
                 score2=checkScore(score2,row,col,size,array,&turn,array2);
                 if(array[row][col]==1){active[row][col]=passive[row][col];}
-
                 noMoves--;
                 turn=!turn;
             }
