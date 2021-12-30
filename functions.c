@@ -246,22 +246,22 @@ void redo1(int *score1, int *score2 ,int i,int stor[20],int stoc[20],int size,  
 }
 
 
-void redo2(int *score1, int *score2, int counter, int size, int array[size][size], int array1[size][size], int array2[size][size], int active[size][size], int stor[20], int stoc[20], int turn, int passive[size][size], int removedline[20], int undos)
+void redo2(int *score1, int *score2, int counter, int size, int array[size][size], int array1[size][size], int array2[size][size], char active[size][size], int stor[20], int stoc[20], int turn, char passive[size][size], int removedline[20], int undos)
 {
     int row , col;
     row=stor[counter];col=stoc[counter];
 
-    if(removedline[undos-1]==1)
+    if(removedline[undos]==1)
     {
         *score1=checkScore(*score1, row, col, size, array, &turn, array1);
         array1[row][col]=1;array[row][col]=1;
-        if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
-        else{active[row][col]=205;}
+       if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
+       else{active[row][col]=205;}
     }
 
 
 
-   if(removedline[undos-1]==2)
+   if(removedline[undos]==2)
     {
         *score2=checkScore(*score2, row, col, size, array, &turn, array2);
         array2[row][col]=1;array[row][col]=1;
@@ -270,7 +270,8 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
     }
 
 
-     //if(array[row][col]==1){active[row][col]=passive[row][col];}
+
+     if(array[row][col]==1){active[row][col]=passive[row][col];}
 
 }
 
