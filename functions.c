@@ -5,32 +5,270 @@
 #define BLK "\e[0;30m"
 #define RED "\e[0;31m"
 #define GRN "\e[0;32m"
-#define YEL "\e[0;33m"
-#define BLU "\e[0;34m"
-#define MAG "\e[0;35m"
-#define CYN "\e[0;36m"
-#define WHT "\e[0;37m"
-#define BLKB "\e[40m"
-#define REDB "\e[41m"
-#define GRNB "\e[42m"
-#define YELB "\e[43m"
-#define BLUB "\e[44m"
-#define MAGB "\e[45m"
-#define CYNB "\e[46m"
-#define WHTB "\e[47m"
-#include <windows.h>
-#define BLKB "\e[40m"
-#define REDB "\e[41m"
-#define GRNB "\e[42m"
-#define YELB "\e[43m"
-#define BLUB "\e[44m"
-#define MAGB "\e[45m"
-#define CYNB "\e[46m"
-#define WHTB "\e[47m"
 #include <ctype.h>
 #include <string.h>
 
 #include "my_headers.h"
+
+
+void redo1(int *score1, int *score2 ,int i,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size], int turn, int *ii)
+{  int temprow, tempcol;
+   temprow=stor[i];tempcol=stoc[i];
+   if(array1[temprow][tempcol]==0)
+   {
+
+       *score1=checkScore(score1, temprow, tempcol, size, array, &turn, array1);
+       array1[temprow][tempcol]=1;array[temprow][tempcol]=1;
+        if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]=186;}   //reset line to space
+        else{active[temprow][tempcol]=205;}}
+
+
+        if(array2[temprow][tempcol]==0)
+        {
+
+            *score2=checkScore(score2, temprow, tempcol, size, array, &turn, array2);
+            array2[temprow][tempcol]=1;array[temprow][tempcol]=1;
+            if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]=186;}   //reset line to space
+            else{active[temprow][tempcol]=205;}}
+            *ii++;*ii=i;
+   }
+
+
+void redo2(int *score1, int *score2, int counter, int size, int array[size][size], int array1[size][size], int array2[size][size], int active[size][size], int stor[20], int stoc[20], int turn, int passive[size][size], int removedline[20], int undos)
+{
+    int row , col;
+    row=stor[counter];col=stoc[counter];
+    if(removedline[undos-1]==1)
+    {
+        *score1=checkScore(score1, row, col, size, array, &turn, array1);
+        array1[row][col]=1;array[row][col]=1;
+        if(row%2==1 &&col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
+        else{active[row][col]=205;}}
+
+
+
+   if(removedline[undos-1]==2)
+    {
+        *score2=checkScore(score2, row, col, size, array, &turn, array2);
+        array2[row][col]=1;array[row][col]=1;
+        if(row%2==1 &&col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
+        else{active[row][col]=205;}}
+
+
+     if(array[row][col]==1){active[row][col]=passive[row][col];}
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void  undo1(int *score1, int *score2 ,int i,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size], int *ii/* int *removedline*/)
+{   int temprow, tempcol;//int removedline=0;
+
+
+
+        i--;temprow=stor[i];tempcol=stoc[i];
+        if(array1[temprow][tempcol]==1)//removing line and boxes from player 1
+        {
+            //removedline = 1;
+            *score1= checkScoreUndo(*score1,temprow,tempcol,size,array,array1,active);
+            array1[temprow][tempcol]=0;array[temprow][tempcol]=0;
+
+             if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]='\0';}   //reset line to space
+                    else{active[temprow][tempcol]='\t';}}
+
+
+        if(array2[temprow][tempcol]==1)
+        {
+             //removedline = 2;
+            *score2= checkScoreUndo(*score2,temprow,tempcol,size,array,array2,active);
+             array2[temprow][tempcol]=0;array[temprow][tempcol]=0;
+
+             if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]='\0';}   //reset line to space
+                    else{active[temprow][tempcol]='\t';}}
+
+*ii=i;
+
+
+}
+
+
+
+void undo2(int size, int *score1, int *score2, int array1[size][size], int array2[size][size], int stor[30], int stoc[30], int counter, int array[size][size], char active[size][size], int removedline[20], int undos)
+{    int a=1, b=2;
+    int row, col;
+    row=stor[counter-1];
+    col=stoc[counter-1];
+    if(array1[row][col]==1)
+    {   removedline[undos] = 1;
+        *score1= checkScoreUndo(*score1,row,col,size,array,array1,active);
+
+    }
+    if(array2[row][col]==1)
+    {   removedline[undos] = 2;
+        *score2= checkScoreUndo(*score2,row,col,size,array,array2,active);
+
+    }
+    array1[row][col]=0;
+    array2[row][col]=0;
+    array[row][col]=0;
+    if(row%2==1 && col%2==0){active[row][col]='\0';}
+    else
+    {
+        active[row][col]='\t';
+    }
+}
+
+
+
+int checkScoreUndo(int score, int row, int col ,int size, int array[size][size],int arrayPlayer[size][size],char active[size][size])
+{
+    int change=0;
+    if(row%2==0 && col%2==1)
+    {
+        if(row==0)
+        {
+            if(array[row+2][col]==1 && array[row+1][col-1]==1 && array[row+1][col+1]==1)
+            {
+                score--;
+                change=1;
+                //*change++;
+                arrayPlayer[row+1][col]=0;
+                active[row+1][col]='\t';
+            }
+        }
+        else
+        {
+            if(row==size-1)
+            {
+                if(array[row-2][col]==1 && array[row-1][col-1]==1 && array[row-1][col+1]==1)
+                {
+                    score--;
+                    //*change++;
+                    change=1;
+                    arrayPlayer[row-1][col]=0;
+                    active[row-1][col]='\t';
+                }
+            }
+            else
+            {
+                if(array[row-2][col]==1 && array[row-1][col-1]==1 && array[row-1][col+1]==1)
+                {
+                    score--;
+                    //*change++;
+                    change=1;
+                    arrayPlayer[row-1][col]=0;
+                    active[row-1][col]='\t';
+                }
+                if(array[row+2][col]==1 && array[row+1][col-1]==1 && array[row+1][col+1]==1)
+                {
+                    score--;
+                    //*change++;
+                    change=1;
+                    arrayPlayer[row+1][col]=0;
+                    active[row+1][col]='\t';
+
+                }
+            }
+        }
+
+    }
+    if(row%2==1 && col%2==0)
+    {
+        if(col==0)
+        {
+            if(array[row][col+2]==1 && array[row-1][col+1]==1 && array[row+1][col+1]==1)
+            {
+                score--;
+                //*change++;
+                change=1;
+                arrayPlayer[row][col+1]=0;
+                active[row][col+1]='\t';
+            }
+        }
+        else
+        {
+            if(col==size-1)
+            {
+                if(array[row][col-2]==1 && array[row-1][col-1]==1 && array[row+1][col-1]==1)
+                {
+                    score--;
+                    //*change++;
+                    change=1;
+                    arrayPlayer[row][col-1]=0;
+                    active[row][col-1]='\t';
+                }
+            }
+            else
+            {
+                if(array[row][col-2]==1 && array[row-1][col-1]==1 && array[row+1][col-1]==1)
+                {
+                    score--;
+                    //*change++;
+                    change=1;
+                    arrayPlayer[row][col-1]=0;
+                    active[row][col-1]='\t';
+                }
+                if(array[row][col+2]==1 && array[row-1][col+1]==1 && array[row+1][col+1]==1)
+                {
+                    score--;
+                    //*change++;
+                    change=1;
+                    arrayPlayer[row][col+1]=0;
+                    active[row][col+1]='\t';
+                }
+            }
+        }
+    }
+    //turn=!turn;
+    return score;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void setToZero(int size, int arr[size][size])
 {
@@ -56,8 +294,9 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
             {
                 score++;
                 change=1;
-                //*change++;
+                //change++;
                 arrayPlayer[row+1][col]=1;
+
             }
         }
         else
@@ -67,9 +306,10 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 if(array[row-2][col]==1 && array[row-1][col-1]==1 && array[row-1][col+1]==1)
                 {
                     score++;
-                    //*change++;
+                    //change++;
                     change=1;
                     arrayPlayer[row-1][col]=1;
+
                 }
             }
             else
@@ -77,16 +317,18 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 if(array[row-2][col]==1 && array[row-1][col-1]==1 && array[row-1][col+1]==1)
                 {
                     score++;
-                    //*change++;
+                    //change++;
                     change=1;
                     arrayPlayer[row-1][col]=1;
+
                 }
                 if(array[row+2][col]==1 && array[row+1][col-1]==1 && array[row+1][col+1]==1)
                 {
                     score++;
-                    //*change++;
+                    //change++;
                     change=1;
                     arrayPlayer[row+1][col]=1;
+
                 }
             }
         }
@@ -99,9 +341,10 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
             if(array[row][col+2]==1 && array[row-1][col+1]==1 && array[row+1][col+1]==1)
             {
                 score++;
-                //*change++;
+                //change++;
                 change=1;
                 arrayPlayer[row][col+1]=1;
+
             }
         }
         else
@@ -111,9 +354,10 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 if(array[row][col-2]==1 && array[row-1][col-1]==1 && array[row+1][col-1]==1)
                 {
                     score++;
-                    //*change++;
+                    //change++;
                     change=1;
                     arrayPlayer[row][col-1]=1;
+                   // passive[row][col-1]=219;
                 }
             }
             else
@@ -121,16 +365,18 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
                 if(array[row][col-2]==1 && array[row-1][col-1]==1 && array[row+1][col-1]==1)
                 {
                     score++;
-                    //*change++;
+                    //change++;
                     change=1;
                     arrayPlayer[row][col-1]=1;
+                    //passive[row][col-1]=219;
                 }
                 if(array[row][col+2]==1 && array[row-1][col+1]==1 && array[row+1][col+1]==1)
                 {
                     score++;
-                    //*change++;
+                    //change++;
                     change=1;
                     arrayPlayer[row][col+1]=1;
+                   // passive[row][col+1]=219;
                 }
             }
 
@@ -138,7 +384,7 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
 
     }
     if(change==1){*turn=!*turn;}
-    /*if(*change==2)
+    /*if(change==2)
     {
         *turn=!*turn;
         arrayPlayer[row][col]=0;
@@ -147,7 +393,7 @@ int checkScore(int score, int row, int col ,int size, int array[size][size],int 
     return score;
 }
 
-void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int score2,char player1[10],char player2[10] ,int array[size][size], int array1[size][size], int array2[size][size])
+void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int score2,char player1[10],char player2[10] ,int array[size][size], int array1[size][size], int array2[size][size], int turnArray[60], int counter, int stor[30], int stoc[30])
 {
     FILE *savedGame;
     char x,y,z;
@@ -400,133 +646,3 @@ void checkRank(int score, char playerName[10])
 
     }
 }
-
-int checkScoreUndo(int score, int row, int col ,int size, int array[size][size],int arrayPlayer[size][size],char active[size][size])
-{
-    int change=0;
-    if(row%2==0 && col%2==1)
-    {
-        if(row==0)
-        {
-            if(array[row+2][col]==1 && array[row+1][col-1]==1 && array[row+1][col+1]==1)
-            {
-                score--;
-                change=1;
-                //*change++;
-                arrayPlayer[row+1][col]=0;
-                active[row+1][col]='\t';
-            }
-        }
-        else
-        {
-            if(row==size-1)
-            {
-                if(array[row-2][col]==1 && array[row-1][col-1]==1 && array[row-1][col+1]==1)
-                {
-                    score--;
-                    //*change++;
-                    change=1;
-                    arrayPlayer[row-1][col]=0;
-                    active[row-1][col]='\t';
-                }
-            }
-            else
-            {
-                if(array[row-2][col]==1 && array[row-1][col-1]==1 && array[row-1][col+1]==1)
-                {
-                    score--;
-                    //*change++;
-                    change=1;
-                    arrayPlayer[row-1][col]=0;
-                    active[row-1][col]='\t';
-                }
-                if(array[row+2][col]==1 && array[row+1][col-1]==1 && array[row+1][col+1]==1)
-                {
-                    score--;
-                    //*change++;
-                    change=1;
-                    arrayPlayer[row+1][col]=0;
-                    active[row+1][col]='\t';
-
-                }
-            }
-        }
-
-    }
-    if(row%2==1 && col%2==0)
-    {
-        if(col==0)
-        {
-            if(array[row][col+2]==1 && array[row-1][col+1]==1 && array[row+1][col+1]==1)
-            {
-                score--;
-                //*change++;
-                change=1;
-                arrayPlayer[row][col+1]=0;
-                active[row][col+1]='\t';
-            }
-        }
-        else
-        {
-            if(col==size-1)
-            {
-                if(array[row][col-2]==1 && array[row-1][col-1]==1 && array[row+1][col-1]==1)
-                {
-                    score--;
-                    //*change++;
-                    change=1;
-                    arrayPlayer[row][col-1]=0;
-                    active[row][col-1]='\t';
-                }
-            }
-            else
-            {
-                if(array[row][col-2]==1 && array[row-1][col-1]==1 && array[row+1][col-1]==1)
-                {
-                    score--;
-                    //*change++;
-                    change=1;
-                    arrayPlayer[row][col-1]=0;
-                    active[row][col-1]='\t';
-                }
-                if(array[row][col+2]==1 && array[row-1][col+1]==1 && array[row+1][col+1]==1)
-                {
-                    score--;
-                    //*change++;
-                    change=1;
-                    arrayPlayer[row][col+1]=0;
-                    active[row][col+1]='\t';
-                }
-            }
-        }
-    }
-    //turn=!turn;
-    return score;
-}
-
-
-void undo2(int size, int *score1, int *score2, int array1[size][size], int array2[size][size], int stor[30], int stoc[30], int counter, int array[size][size], char active[size][size])
-{
-    int row, col;
-    row=stor[counter-1];
-    col=stoc[counter-1];
-    if(array1[row][col]==1)
-    {
-        *score1= checkScoreUndo(*score1,row,col,size,array,array1,active);
-
-    }
-    if(array2[row][col]==1)
-    {
-        *score2= checkScoreUndo(*score2,row,col,size,array,array2,active);
-
-    }
-    array1[row][col]=0;
-    array2[row][col]=0;
-    array[row][col]=0;
-    if(row%2==1 && col%2==0){active[row][col]='\0';}
-    else
-    {
-        active[row][col]='\t';
-    }
-}
-
