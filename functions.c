@@ -223,26 +223,27 @@ int checkScoreUndo(int score, int row, int col ,int size, int array[size][size],
     return score;
 }
 
-void redo1(int *score1, int *score2 ,int i,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size], int turn, int *ii)
-{  int temprow, tempcol;
-   temprow=stor[i];tempcol=stoc[i];
-   if(array1[temprow][tempcol]==0)
+void redo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size], int turn,  int removedline[20], int undos, char passive[size][size])
+{  int row , col;
+    row=stor[counter];col=stoc[counter];
+   if(removedline[undos-1]==1)
    {
 
-       *score1=checkScore(score1, temprow, tempcol, size, array, &turn, array1);
-       array1[temprow][tempcol]=1;array[temprow][tempcol]=1;
-        if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]=186;}   //reset line to space
-        else{active[temprow][tempcol]=205;}}
+       *score1=checkScore(score1, row, col, size, array, &turn, array1);
+       array1[row][col]=1;array[row][col]=1;
+        if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
+        else{active[row][col]=205;}}
 
 
-        if(array2[temprow][tempcol]==0)
+        if(removedline[undos-1]==2)
         {
 
-            *score2=checkScore(score2, temprow, tempcol, size, array, &turn, array2);
-            array2[temprow][tempcol]=1;array[temprow][tempcol]=1;
-            if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]=186;}   //reset line to space
-            else{active[temprow][tempcol]=205;}}
-            *ii++;*ii=i;
+            *score2=checkScore(score2, row, col, size, array, &turn, array2);
+            array2[row][col]=1;array[row][col]=1;
+            if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
+            else{active[row][col]=205;}}
+            if(array[row][col]==1){active[row][col]=passive[row][col];}
+
 }
 
 
@@ -299,15 +300,15 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
 
 
 
-void  undo1(int *score1, int *score2 ,int i,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size], int *ii/* int *removedline*/)
-{   int temprow, tempcol;//int removedline=0;
+void  undo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size],   int removedline[20], int undos)
+{   int temprow, tempcol;
 
 
 
-        i--;temprow=stor[i];tempcol=stoc[i];
+        temprow=stor[counter-1];tempcol=stoc[counter-1];
         if(array1[temprow][tempcol]==1)//removing line and boxes from player 1
         {
-            //removedline = 1;
+            removedline[undos] = 1;
             *score1= checkScoreUndo(*score1,temprow,tempcol,size,array,array1,active);
             array1[temprow][tempcol]=0;array[temprow][tempcol]=0;
 
@@ -317,14 +318,14 @@ void  undo1(int *score1, int *score2 ,int i,int stor[20],int stoc[20],int size, 
 
         if(array2[temprow][tempcol]==1)
         {
-             //removedline = 2;
+             removedline[undos] = 2;
             *score2= checkScoreUndo(*score2,temprow,tempcol,size,array,array2,active);
              array2[temprow][tempcol]=0;array[temprow][tempcol]=0;
 
              if(temprow%2==1 && tempcol%2==0)/*vertical*/{active[temprow][tempcol]='\0';}   //reset line to space
                     else{active[temprow][tempcol]='\t';}}
 
-*ii=i;
+
 
 
 }
