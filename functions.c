@@ -224,12 +224,18 @@ int checkScoreUndo(int score, int row, int col ,int size, int array[size][size],
 }
 
 void redo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size], int turn,  int removedline[20], int undos, char passive[size][size])
-{  int row , col;
+{
+
+    int row , col, row2, col2;
     row=stor[counter];col=stoc[counter];
+    row2=stor[counter+1];col2=stoc[counter+1];
+
+   if(undos>=1){
+
    if(removedline[undos-1]==1)
    {
 
-       *score1=checkScore(score1, row, col, size, array, &turn, array1);
+       *score1=checkScore(*score1, row, col, size, array, &turn, array1);
        array1[row][col]=1;array[row][col]=1;
         if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
         else{active[row][col]=205;}}
@@ -238,12 +244,36 @@ void redo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int s
         if(removedline[undos-1]==2)
         {
 
-            *score2=checkScore(score2, row, col, size, array, &turn, array2);
+            *score2=checkScore(*score2, row, col, size, array, &turn, array2);
             array2[row][col]=1;array[row][col]=1;
             if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
             else{active[row][col]=205;}}
-            if(array[row][col]==1){active[row][col]=passive[row][col];}
+            if(array[row][col]==1){active[row][col]=passive[row][col];}}
 
+
+          if (undos>1){
+             if(removedline[undos-2]==1)
+                {
+
+                *score1=checkScore(*score1, row2, col2, size, array, &turn, array1);
+                array1[row2][col2]=1;array[row2][col2]=1;
+                if(row2%2==1 && col2%2==0)/*vertical*/{active[row2][col2]=186;}   //reset line to space
+                else{active[row2][col2]=205;}}
+
+
+            if(removedline[undos-2]==2)
+            {
+
+            *score2=checkScore(*score2, row2, col2, size, array, &turn, array2);
+            array2[row2][col2]=1;array[row2][col2]=1;
+            if(row2%2==1 && col2%2==0)/*vertical*/{active[row2][col2]=186;}   //reset line to space
+            else{active[row2][col2]=205;}}
+            if(array[row2][col2]==1){active[row2][col2]=passive[row2][col2];}
+
+
+
+
+   }
 }
 
 
@@ -275,6 +305,29 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
      if(array[row][col]==1){active[row][col]=passive[row][col];}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void  undo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int size,  int array2[size][size], int array1[size][size], int array[size][size], char active[size][size],   int removedline[20], int undos)
