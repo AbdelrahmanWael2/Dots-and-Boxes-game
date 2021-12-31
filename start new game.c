@@ -184,8 +184,13 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                     if(undos == 0){printf("No moves to redo");}
                         else
                         {
-                            redo1(&score1, &score2, counter, stor, stoc, size, array2, array1, array, active, turn, removedlines, undos, passive );undos--;
-                            counter++;noMoves--;goto label4;
+                            do
+                            {
+                                redo1(&score1, &score2, counter, stor, stoc, size, array2, array1, array, active, turn, removedlines, undos, passive );
+                                undos--;
+                                counter++;noMoves--;
+                            }while(turnArray[counter]==1);
+                            goto label4;
                         }
                 }
                 if(row == -1 && col == -1)
@@ -194,8 +199,9 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                     else
                     {
                         do
-                        {undo1(&score1, &score2 , counter, stor, stoc, size, array2,array1, array, active, removedlines, undos );
-                        noMoves++;undos++;counter--;
+                        {
+                            undo1(&score1, &score2 , counter, stor, stoc, size, array2,array1, array, active, removedlines, undos );
+                            noMoves++;undos++;counter--;
                         }while(turnArray[counter]==1);
                         goto label4;
 
@@ -208,6 +214,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
+                undos=0;
                 stor[counter]=row;
                 stoc[counter]=col;
                 turnArray[counter]=turn;
