@@ -252,7 +252,7 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
     int row , col;
     row=stor[counter];col=stoc[counter];
 
-    if(removedline[undos]==1)
+    if(removedline[undos-1]==1)
     {
         *score1=checkScore(*score1, row, col, size, array, &turn, array1);
         array1[row][col]=1;array[row][col]=1;
@@ -262,7 +262,7 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
 
 
 
-   if(removedline[undos]==2)
+   if(removedline[undos-1]==2)
     {
         *score2=checkScore(*score2, row, col, size, array, &turn, array2);
         array2[row][col]=1;array[row][col]=1;
