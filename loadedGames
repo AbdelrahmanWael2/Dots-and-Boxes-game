@@ -48,10 +48,10 @@ void loadedGames()
     }
     else
     {
-        int size,noPlayers,noMoves,turn,score1,score2;
+        int size,noPlayers,noMoves,turn,score1,score2,counter;
         char x;
         char playerOne[10],playerTwo[10];
-        int array[11][11],array1[11][11],array2[11][11];
+        int array[11][11],array1[11][11],array2[11][11],turnArray[60],stor[30],stoc[30];
 
         if(game==1)
         {
@@ -94,8 +94,17 @@ void loadedGames()
                 {
                     for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
                 }
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&counter);
+                fscanf(gameFile,"\n");
+                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
             }
         }
+
         if(game==2)
         {
             FILE *gameFile;
@@ -137,6 +146,14 @@ void loadedGames()
                 {
                     for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
                 }
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&counter);
+                fscanf(gameFile,"\n");
+                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
             }
 
         }
@@ -181,9 +198,17 @@ void loadedGames()
                 {
                     for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
                 }
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&counter);
+                fscanf(gameFile,"\n");
+                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
             }
         }
-        int  row, col;
+        int  row, col, undos=0, removedlines[20];
         char passive[size][size],h=205,v=186,b=219;
         for(int i=0;i<size;i++)
         {
@@ -231,6 +256,7 @@ void loadedGames()
             }
         }
 
+
         system("cls");
         system("color 07");
         time_t start, end;
@@ -240,9 +266,11 @@ void loadedGames()
         //two player
         if(noPlayers==2)
         {
-            int counter=0, counter2=0;int i=0, j=0;
+
+          //int counter=0, counter2=0;int i=0, j=0;
             while(noMoves>=0)
             {
+                startTurn:
                 system("cls");
                 printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
                 printf("\n");
@@ -339,81 +367,114 @@ void loadedGames()
                     printf("\n");
                 }
 
+
                 reread:
                 fflush(stdin);
                 if(noMoves>0)
                 {
-                    int temprow1, tempcol1, tempcol2, temprow2;int stor1[20], stor2[20], stoc1[20], stoc2[20];
                     if(turn==0)
                     {
+                        turnArray[counter]=0;
                         label4:
                         printf("\e[0;34mPlayer one turn\n");
                         printf("\e[0;34mEnter number of row: \n");
                         scanf("%d",&row);
                         printf("\e[0;34mEnter number of column: \n");
                         scanf("%d",&col);
-                        if(row==-3 && col==-3){saveGame(size,0,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
+                        if(row==-3 && col==-3){saveGame(size,0,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2,turnArray,counter,stor,stoc);goto endGame;}
+                        if(row==-2 && col==-2)
+                        {
+                            if(undos==0){printf("No moves to redo");}
+                            else
+                            {
+                                redo2(&score1, &score2,counter, size, array, array1, array2, active, stor, stoc, turn, passive, removedlines, undos);
+                                undos--;counter++;noMoves--;turn=turnArray[counter];
+                                goto startTurn;
+                            }
+                        }
                         //undo for player 2
                         if(row==-1 && col==-1)
                         {
-                            if(counter2<=0){printf("There's nothing to Undo\n");goto reread;}
+                            if(counter==0){printf("There's nothing to Undo\n");goto reread;}
                             else
                             {
-                                j--;temprow2=stor2[j];tempcol2=stoc2[j];array2[temprow2][tempcol2]=0;array[temprow2][tempcol2]=0;
-                                if(temprow2%2==1 && tempcol2%2==0){active[temprow2][tempcol2]='\0';}   //reset line to space
-                                else{active[temprow2][tempcol2]='\t';}
-                                noMoves++;counter2--;goto label5;
+                                undo2(size,&score1,&score2,array1,array2,stor,stoc,counter,array,active,removedlines,undos);
+                                noMoves++;
+                                undos++;
+                                turn=turnArray[counter-1];
+                                counter--;
+                                goto startTurn;
                             }
                         }
-                        else{stor1[i]=row; stoc1[i]=col;i++;}
-                        if((row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+
+
+                       if((row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]!=0 )
                         {
                             printf("Please enter valid numbers\n");
                             goto reread;
                         }
+                        stor[counter]=row;
+                        stoc[counter]=col;
 
                         counter++;
-                        score1=checkScore(score1,row,col,size,array,&turn,array1);
                         array1[row][col]=1;
                         array[row][col]=1;
+                        score1=checkScore(score1,row,col,size,array,&turn,array1);
+                        if(array[row][col]==1){active[row][col]=passive[row][col];}
                         noMoves--;
-                        label5:
-                        active[row][col]=passive[row][col];
+                        label:
                         turn=!turn;
                     }
                     else
                     {
+                        turnArray[counter]=1;
                         printf("\e[0;31mPlayer two turn\n");
                         printf("\e[0;31mEnter number of row: ");
                         scanf("%d",&row);
                         printf("\e[0;31mEnter number of column: ");
                         scanf("%d",&col);
-                        if(row==-3 && col==-3){saveGame(size,1,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame;}
+                        if(row==-3 && col==-3){saveGame(size,1,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2,turnArray,counter,stor,stoc);goto endGame;}
+                        if(row==-2 && col==-2)
+                        {if(undos==0){printf("No moves to redo");}
+                        else
+                        {
+                            redo2(&score1, &score2,counter, size, array, array1, array2, active, stor, stoc, turn, passive, removedlines, undos);
+                            undos--;noMoves--;counter++;turn=turnArray[counter];
+                            goto startTurn;
+                        }
+
+
+
+                        }
                         //undo for player 1
                         if(row==-1 && col==-1)
                         {
-                            if(counter<=0){printf("There's nothing to Undo\n");goto reread;}
+                            if(counter==0){printf("There's nothing to Undo\n");goto reread;}
                             else
                             {
-                                i--;temprow1=stor1[i];tempcol1=stoc1[i];array1[temprow1][tempcol1]=0;array[temprow1][tempcol1]=0;
-                                if(temprow1%2==1 && tempcol1%2==0){active[temprow1][tempcol1]='\0';}   //reset line to space
-                                else{active[temprow1][tempcol1]='\t';}
-                                noMoves++;goto label6;counter--;
+                                undo2(size,&score1,&score2,array1,array2,stor,stoc,counter,array,active,removedlines,undos);
+                                noMoves++;
+                                undos++;
+                                turn=turnArray[counter-1];
+                                counter--;
+                                goto startTurn;
                             }
                         }
-                        else{stor2[j]=row;stoc2[j]=col;j++;}
-                        if( (row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
+                        if( (row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]!=0 )
                         {
                             printf("Please enter valid numbers\n");
                             goto reread;
                         }
-                        counter2++;
-                        score2=checkScore(score2,row,col,size,array,&turn,array2);
+                        stor[counter]=row;
+                        stoc[counter]=col;
+
+                        counter++;
+                        noMoves--;
                         array2[row][col]=1;
                         array[row][col]=1;
-                        noMoves--;
-                        label6:
-                        active[row][col]=passive[row][col];
+                        score2=checkScore(score2,row,col,size,array,&turn,array2);
+                        if(array[row][col]==1){active[row][col]=passive[row][col];}
+                        label2:
                         turn=!turn;
                     }
                 }
@@ -472,13 +533,14 @@ void loadedGames()
         }
         else
         {
-            int counter=0, counter2=0;int i=0, j=0;
+
             time_t start, end;
             float sec=0.0;
             int min=0;
             start=time(NULL);
             while(noMoves>=0)
             {
+                label5:
                 system("cls");
                 printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
                 printf("\n");
@@ -588,42 +650,63 @@ void loadedGames()
                         scanf("%d",&row);
                         printf("\e[0;34mEnter number of column: \n");
                         scanf("%d",&col);
-                        if(row==-3 && col==-3){saveGame(size,0,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2);goto endGame1;}
-                        //undo for player 2
-                        if(row==-1 && col==-1)
+                        if(row==-3 && col==-3){saveGame(size,0,1,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2, turnArray, counter, stor, stoc);goto endGame1;}
+                        if(row==-2 && col==-2)
                         {
-                            if(counter2<=0){printf("There's nothing to Undo\n");goto reread1;}
+                            if(undos == 0){printf("No moves to redo");}
+                                else
+                                {
+                                    do
+                                    {
+                                        redo1(&score1, &score2, counter, stor, stoc, size, array2, array1, array, active, turn, removedlines, undos, passive );
+                                        undos--;
+                                        counter++;noMoves--;
+                                    }while(turnArray[counter]==1);
+                                    goto label5;
+                                }
+                        }
+                        if(row == -1 && col == -1)
+                        {
+                            if(counter==0){printf("no more undo");}
                             else
                             {
-                                j--;temprow2=stor2[j];tempcol2=stoc2[j];array2[temprow2][tempcol2]=0;array[temprow2][tempcol2]=0;
-                                if(temprow2%2==1 && tempcol2%2==0){active[temprow2][tempcol2]='\0';}   //reset line to space
-                                else{active[temprow2][tempcol2]='\t';}
-                                noMoves++;counter2--;goto label51;
+                                do
+                                {
+                                    undo1(&score1, &score2 , counter, stor, stoc, size, array2,array1, array, active, removedlines, undos );
+                                    noMoves++;undos++;counter--;
+                                }while(turnArray[counter]==1);
+                                goto label5;
+
                             }
                         }
-                        else{stor1[i]=row; stoc1[i]=col;i++;}
                         if((row>size || col>size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
                         {
                             printf("Please enter valid numbers\n");
-                            goto reread;
+                            goto reread1;
                         }
 
+                        undos=0;
+                        stor[counter]=row;
+                        stoc[counter]=col;
+                        turnArray[counter]=turn;
                         counter++;
-                        score1=checkScore(score1,row,col,size,array,&turn,array1);
                         array1[row][col]=1;
                         array[row][col]=1;
+                        score1=checkScore(score1,row,col,size,array,&turn,array1);
+                        if(array[row][col]==1){active[row][col]=passive[row][col];}
                         noMoves--;
-                        label51:
-                        active[row][col]=passive[row][col];
                         turn=!turn;
                     }
                     else
                     {
                         AI(size, array, &row, &col);
-                        score2=checkScore(score2,row,col,size,array,&turn,array2);
                         array2[row][col]=1;
                         array[row][col]=1;
-                        active[row][col]=passive[row][col];
+                        stor[counter]=row;stoc[counter]=col;
+                        turnArray[counter]=turn;
+                        counter++;
+                        score2=checkScore(score2,row,col,size,array,&turn,array2);
+                        if(array[row][col]==1){active[row][col]=passive[row][col];}
                         noMoves--;
                         turn=!turn;
                     }
@@ -666,7 +749,7 @@ void loadedGames()
             if(loop!=1 && loop!=2 && loop!=3)
             {
                 printf("Please enter a valid number: ");
-                goto endGame;
+                goto endGame1;
             }
             if(loop==1)
             {
