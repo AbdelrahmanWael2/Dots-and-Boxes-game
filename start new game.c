@@ -446,7 +446,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 if(row==-3 && col==-3){saveGame(size,0,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2,turnArray,counter,stor,stoc);goto endGame;}
                 if(row==-2 && col==-2)
                 {
-                    if(undos=0){printf("No moves to redo");}
+                    if(undos==0){printf("No moves to redo");}
                     else
                     {
                         redo2(&score1, &score2,counter, size, array, array1, array2, active, stor, stoc, turn, passive, removedline, undos);
@@ -495,7 +495,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 scanf("%d",&col);
                 if(row==-3 && col==-3){saveGame(size,1,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2,turnArray,counter,stor,stoc);goto endGame;}
                 if(row==-2 && col==-2)
-                {if(undos=0){printf("No moves to redo");}
+                {if(undos==0){printf("No moves to redo");}
                 else
                 {
                     redo2(&score1, &score2,counter, size, array, array1, array2, active, stor, stoc, turn, passive, removedline, undos);
@@ -590,7 +590,6 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             }
             if(loop==2)exit(-1);
 }
-
 
 void startNewGame()
 {
