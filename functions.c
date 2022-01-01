@@ -229,7 +229,7 @@ void redo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int s
    if(removedline[undos-1]==1)
    {
 
-       *score1=checkScore(score1, row, col, size, array, &turn, array1);
+       *score1=checkScore(*score1, row, col, size, array, &turn, array1);
        array1[row][col]=1;array[row][col]=1;
         if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
         else{active[row][col]=205;}}
@@ -238,7 +238,7 @@ void redo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int s
         if(removedline[undos-1]==2)
         {
 
-            *score2=checkScore(score2, row, col, size, array, &turn, array2);
+            *score2=checkScore(*score2, row, col, size, array, &turn, array2);
             array2[row][col]=1;array[row][col]=1;
             if(row%2==1 && col%2==0)/*vertical*/{active[row][col]=186;}   //reset line to space
             else{active[row][col]=205;}}
@@ -252,7 +252,7 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
     int row , col;
     row=stor[counter];col=stoc[counter];
 
-    if(removedline[undos]==1)
+    if(removedline[undos-1]==1)
     {
         *score1=checkScore(*score1, row, col, size, array, &turn, array1);
         array1[row][col]=1;array[row][col]=1;
@@ -262,7 +262,7 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
 
 
 
-   if(removedline[undos]==2)
+   if(removedline[undos-1]==2)
     {
         *score2=checkScore(*score2, row, col, size, array, &turn, array2);
         array2[row][col]=1;array[row][col]=1;
@@ -272,7 +272,7 @@ void redo2(int *score1, int *score2, int counter, int size, int array[size][size
 
 
 
-     if(array[row][col]==1){active[row][col]=passive[row][col];}
+     //if(array[row][col]==1){active[row][col]=passive[row][col];}
 
 }
 
@@ -303,10 +303,7 @@ void  undo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int 
                     else{active[temprow][tempcol]='\t';}}
 
 
-
-
 }
-
 
 
 void undo2(int size, int *score1, int *score2, int array1[size][size], int array2[size][size], int stor[30], int stoc[30], int counter, int array[size][size], char active[size][size], int removedline[20], int undos)
@@ -334,34 +331,6 @@ void undo2(int size, int *score1, int *score2, int array1[size][size], int array
         active[row][col]='\t';
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void setToZero(int size, int arr[size][size])
@@ -408,20 +377,25 @@ void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int sco
         for(int i=0;i<size;i++)
         {
             for(int j=0;j<size;j++){fprintf(savedGame,"%d ",array[i][j]);}
-
         }
         fprintf(savedGame,"\n");
         for(int i=0;i<size;i++)
         {
             for(int j=0;j<size;j++){fprintf(savedGame,"%d ",array1[i][j]);}
-
         }
         fprintf(savedGame,"\n");
         for(int i=0;i<size;i++)
         {
             for(int j=0;j<size;j++){fprintf(savedGame,"%d ",array2[i][j]);}
-
         }
+        fprintf(savedGame,"\n");
+        for(int j=0;j<60;j++){fprintf(savedGame,"%d ",turnArray[j]);}
+        fprintf(savedGame,"\n");
+        fprintf(savedGame,"%d",counter);
+        fprintf(savedGame,"\n");
+        for(int j=0;j<30;j++){fprintf(savedGame,"%d ",stor[j]);}
+        fprintf(savedGame,"\n");
+        for(int j=0;j<30;j++){fprintf(savedGame,"%d ",stoc[j]);}
 
     }
     else
@@ -466,6 +440,14 @@ void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int sco
                 for(int j=0;j<size;j++){fprintf(savedGame,"%d ",array2[i][j]);}
 
             }
+            fprintf(savedGame,"\n");
+            for(int j=0;j<60;j++){fprintf(savedGame,"%d ",turnArray[j]);}
+            fprintf(savedGame,"\n");
+            fprintf(savedGame,"%d",counter);
+            fprintf(savedGame,"\n");
+            for(int j=0;j<30;j++){fprintf(savedGame,"%d ",stor[j]);}
+            fprintf(savedGame,"\n");
+            for(int j=0;j<30;j++){fprintf(savedGame,"%d ",stoc[j]);}
 
         }
         else
@@ -507,6 +489,14 @@ void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int sco
                 {
                     for(int j=0;j<size;j++){fprintf(savedGame,"%d ",array2[i][j]);}
                 }
+                fprintf(savedGame,"\n");
+                for(int j=0;j<60;j++){fprintf(savedGame,"%d ",turnArray[j]);}
+                fprintf(savedGame,"\n");
+                fprintf(savedGame,"%d",counter);
+                fprintf(savedGame,"\n");
+                for(int j=0;j<30;j++){fprintf(savedGame,"%d ",stor[j]);}
+                fprintf(savedGame,"\n");
+                for(int j=0;j<30;j++){fprintf(savedGame,"%d ",stoc[j]);}
 
             }
             else
