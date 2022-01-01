@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <stdlib.h>
 #define BLK "\e[0;30m"
 #define RED "\e[0;31m"
 #define GRN "\e[0;32m"
@@ -73,7 +71,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
     {
         label4:
         system("cls");
-        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
+        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 : %s", playerOne, playerTwo);
         printf("\n");
         printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
         printf("\n");
@@ -204,11 +202,8 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                             noMoves++;undos++;counter--;
                         }while(turnArray[counter]==1);
                         goto label4;
-
                     }
                 }
-
-
                 if( (row>=size || col>=size) || (row<0 || col<0) || (row%2==0 && col%2==0) ||(row%2==1 && col%2==1) || array[row][col]==1 )
                 {
                     printf("Please enter valid numbers\n");
@@ -225,7 +220,6 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
                 if(array[row][col]==1){active[row][col]=passive[row][col];}
                 noMoves--;
                 turn=!turn;
-
             }
             else
             {
@@ -334,7 +328,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
     {
         startTurn:
         system("cls");
-        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
+        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 : %s", playerOne, playerTwo);
         printf("\n");
         printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
         printf("\n");
@@ -437,6 +431,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
 
             if(turn==0)
             {
+                turnArray[counter]=0;
                 label4:
                 printf("\e[0;34mPlayer one turn\n");
                 printf("\e[0;34mEnter number of row: \n");
@@ -446,11 +441,12 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 if(row==-3 && col==-3){saveGame(size,0,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2,turnArray,counter,stor,stoc);goto endGame;}
                 if(row==-2 && col==-2)
                 {
-                    if(undos=0){printf("No moves to redo");}
+                    if(undos==0){printf("No moves to redo");}
                     else
                     {
                         redo2(&score1, &score2,counter, size, array, array1, array2, active, stor, stoc, turn, passive, removedline, undos);
-                        undos--;counter++;noMoves--;goto label;
+                        undos--;counter++;noMoves--;turn=turnArray[counter];
+                        goto startTurn;
                     }
                 }
                 //undo for player 2
@@ -476,7 +472,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 }
                 stor[counter]=row;
                 stoc[counter]=col;
-                turnArray[counter]=0;
+
                 counter++;
                 array1[row][col]=1;
                 array[row][col]=1;
@@ -488,6 +484,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             }
             else
             {
+                turnArray[counter]=1;
                 printf("\e[0;31mPlayer two turn\n");
                 printf("\e[0;31mEnter number of row: ");
                 scanf("%d",&row);
@@ -495,11 +492,12 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 scanf("%d",&col);
                 if(row==-3 && col==-3){saveGame(size,1,2,noMoves,score1,score2,playerOne,playerTwo,array,array1,array2,turnArray,counter,stor,stoc);goto endGame;}
                 if(row==-2 && col==-2)
-                {if(undos=0){printf("No moves to redo");}
+                {if(undos==0){printf("No moves to redo");}
                 else
                 {
                     redo2(&score1, &score2,counter, size, array, array1, array2, active, stor, stoc, turn, passive, removedline, undos);
-                    undos--;noMoves--;counter++;goto label2;
+                    undos--;noMoves--;counter++;turn=turnArray[counter];
+                    goto startTurn;
                 }
 
 
@@ -526,7 +524,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                 }
                 stor[counter]=row;
                 stoc[counter]=col;
-                turnArray[counter]=1;
+
                 counter++;
                 noMoves--;
                 array2[row][col]=1;
@@ -608,7 +606,6 @@ void startNewGame()
         printf("Please enter a valid number: ");
         goto label;
     }
-
     //choose number of players
     system("cls");
     printf("One player:(Press 1)\nTwo players:(press 2)\n\n\n");
@@ -618,22 +615,44 @@ void startNewGame()
 
     if(numOfPlayers==1)
     {
-        printf("Please enter your name\n\n");
-        scanf("%s",playerOne);
-        //gets(playerOne);
+        printf("Please enter your name:\n\n");
+        fflush(stdin);
+        fgets(playerOne,10,stdin);
+        for(int i=0;i<10;i++)
+        {
+            if(playerOne[i]=='\n')
+            {
+                playerOne[i]='\0';
+                break;
+            }
+        }
         strcpy(playerTwo, str);
         system("cls");
     }
     else if(numOfPlayers==2)
     {
         printf("Please enter the name of the first player:\n");
-        scanf("%s",playerOne);
-        /*int i=0;
-        while(playerOne[i]!='\n')
-            {gets(playerOne);i++;}*/
+        fflush(stdin);
+        fgets(playerOne,10,stdin);
+        for(int i=0;i<10;i++)
+        {
+            if(playerOne[i]=='\n')
+            {
+                playerOne[i]='\0';
+                break;
+            }
+        }
         printf("Please enter the name of the second player:\n");
-        scanf("%s",playerTwo);
+        fgets(playerTwo,10,stdin);
+        for(int i=0;i<10;i++)
+        {
+            if(playerOne[i]=='\n')
+            {
+                playerOne[i]='\0';
+                break;
+            }
 
+        }
         system("cls");
     }
     else
@@ -644,7 +663,7 @@ void startNewGame()
 
     system("cls");
     //displaying the names of the players
-    printf("Player 1: %s\t\t\t\t\t", playerOne);printf("Player 2: %s", playerTwo);
+    printf("Player 1: %s\t\t\t\t\tPlayer 2: %s",playerOne,playerTwo);
 
     //dispaying the board
     if(diff==1)
