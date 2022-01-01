@@ -303,7 +303,10 @@ void  undo1(int *score1, int *score2 ,int counter,int stor[20],int stoc[20],int 
                     else{active[temprow][tempcol]='\t';}}
 
 
+
+
 }
+
 
 
 void undo2(int size, int *score1, int *score2, int array1[size][size], int array2[size][size], int stor[30], int stoc[30], int counter, int array[size][size], char active[size][size], int removedline[20], int undos)
@@ -331,6 +334,34 @@ void undo2(int size, int *score1, int *score2, int array1[size][size], int array
         active[row][col]='\t';
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void setToZero(int size, int arr[size][size])
