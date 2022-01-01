@@ -470,9 +470,9 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
+                undos=0;
                 stor[counter]=row;
                 stoc[counter]=col;
-
                 counter++;
                 array1[row][col]=1;
                 array[row][col]=1;
@@ -522,9 +522,9 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
                     printf("Please enter valid numbers\n");
                     goto reread;
                 }
+                undos=0;
                 stor[counter]=row;
                 stoc[counter]=col;
-
                 counter++;
                 noMoves--;
                 array2[row][col]=1;
@@ -646,9 +646,9 @@ void startNewGame()
         fgets(playerTwo,10,stdin);
         for(int i=0;i<10;i++)
         {
-            if(playerOne[i]=='\n')
+            if(playerTwo[i]=='\n')
             {
-                playerOne[i]='\0';
+                playerTwo[i]='\0';
                 break;
             }
 
