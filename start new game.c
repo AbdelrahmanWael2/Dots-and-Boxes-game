@@ -37,8 +37,8 @@
 void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10], int numOfPlayers)
 {
     system("color 07");
-    int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0;int temprow, tempcol, stor[20], stoc[20];int counter=0;
-    setToZero(size,array);int undos=0;int turnArray[60];int removedlines[20];
+    int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0;int temprow, tempcol, stor[60], stoc[60];int counter=0;
+    setToZero(size,array);int undos=0;int turnArray[60];int removedlines[60];
     setToZero(size,array1);
     setToZero(size,array2);
     char active[size][size];
@@ -294,7 +294,7 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
 void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10], char playerTwo[10])
 {
     system("color 07");
-    int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0, turnArray[60];int undos=0;int  stor[30], stoc[30], removedline[20];
+    int array[size][size], array1[size][size], array2[size][size], score1=0, score2=0, turnArray[60];int undos=0;int  stor[60], stoc[60], removedline[60];
     setToZero(size,array);
     setToZero(size,array1);
     setToZero(size,array2);
@@ -328,7 +328,7 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
     {
         startTurn:
         system("cls");
-        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 : %s", playerOne, playerTwo);
+        printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 : %s", playerOne, playerTwo);
         printf("\n");
         printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
         printf("\n");
@@ -642,6 +642,7 @@ void startNewGame()
                 break;
             }
         }
+        fflush(stdin);
         printf("Please enter the name of the second player:\n");
         fgets(playerTwo,10,stdin);
         for(int i=0;i<10;i++)
