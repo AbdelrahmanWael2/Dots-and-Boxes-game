@@ -41,9 +41,8 @@ void leaderBoared()
     {
         fscanf(rankFile,"%d",&scoreArray[i]);
         fscanf(rankFile,"\t");
-        fscanf(rankFile,"%s",&tempName);
+        fgets(tempName,10,rankFile);
         strcpy(nameArray[i],tempName);
-        fscanf(rankFile,"\n");
     }
 
     for(int i=0;i<10;i++){printf("%d\t%s\n",scoreArray[i],nameArray[i]);}
