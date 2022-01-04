@@ -51,7 +51,7 @@ void loadedGames()
         int size,noPlayers,noMoves,turn,score1,score2,counter;
         char x;
         char playerOne[10],playerTwo[10];
-        int array[11][11],array1[11][11],array2[11][11],turnArray[60],stor[30],stoc[30];
+        int array[11][11],array1[11][11],array2[11][11],turnArray[60],stor[60],stoc[60];
 
         if(game==1)
         {
@@ -75,11 +75,8 @@ void loadedGames()
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&score2);
                 fscanf(gameFile,"\n");
-                fscanf(gameFile,"%s",&playerOne);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%s",&playerTwo);
-                fscanf(gameFile,"\n");
-                //int array[size][size],array1[size][size],array2[size][size];
+                fgets(playerOne,10,gameFile);
+                fgets(playerTwo,10,gameFile);
                 for(int i=0;i<size;i++)
                 {
                     for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array[i][j]);fscanf(gameFile," ");}
@@ -99,9 +96,9 @@ void loadedGames()
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&counter);
                 fscanf(gameFile,"\n");
-                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
                 fscanf(gameFile,"\n");
-                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
             }
         }
 
@@ -127,10 +124,8 @@ void loadedGames()
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&score2);
                 fscanf(gameFile,"\n");
-                fscanf(gameFile,"%s",&playerOne);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%s",&playerTwo);
-                fscanf(gameFile,"\n");
+                fgets(playerOne,10,gameFile);
+                fgets(playerTwo,10,gameFile);
                 //int array[size][size],array1[size][size],array2[size][size];
                 for(int i=0;i<size;i++)
                 {
@@ -151,9 +146,9 @@ void loadedGames()
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&counter);
                 fscanf(gameFile,"\n");
-                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
                 fscanf(gameFile,"\n");
-                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
             }
 
         }
@@ -179,10 +174,8 @@ void loadedGames()
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&score2);
                 fscanf(gameFile,"\n");
-                fscanf(gameFile,"%s",&playerOne);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%s",&playerTwo);
-                fscanf(gameFile,"\n");
+                fgets(playerOne,10,gameFile);
+                fgets(playerTwo,10,gameFile);
                 //int array[size][size],array1[size][size],array2[size][size];
                 for(int i=0;i<size;i++)
                 {
@@ -203,12 +196,12 @@ void loadedGames()
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&counter);
                 fscanf(gameFile,"\n");
-                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
                 fscanf(gameFile,"\n");
-                for(int j=0;j<30;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
             }
         }
-        int  row, col, undos=0, removedlines[20];
+        int  row, col, undos=0, removedlines[60];
         char passive[size][size],h=205,v=186,b=219;
         for(int i=0;i<size;i++)
         {
@@ -255,7 +248,23 @@ void loadedGames()
                 if(array1[i][j]==1 || array2[i][j]==1){active[i][j]=passive[i][j];}
             }
         }
+        for(int i=0;i<10;i++)
+        {
+            if(playerOne[i]=='\n')
+            {
+                playerOne[i]='\0';
+                break;
+            }
+        }
+        for(int i=0;i<10;i++)
+        {
+            if(playerTwo[i]=='\n')
+            {
+                playerTwo[i]='\0';
+                break;
+            }
 
+        }
 
         system("cls");
         system("color 07");
@@ -272,7 +281,7 @@ void loadedGames()
             {
                 startTurn:
                 system("cls");
-                printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
+                printf("\e[0;34mPlayer 1 : %s \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2: %s", playerOne, playerTwo );
                 printf("\n");
                 printf("\e[0;34mPlayer 1 score : %d \t\t\t\t\t\t\t\t\t\e[0;31mPlayer 2 score : %d",score1,score2);
                 printf("\n");
