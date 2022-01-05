@@ -255,13 +255,10 @@ void onePlayer(int noMoves,int size, char passive[size][size],char playerOne[10]
             if(score2>score1)
             {
                 printf("END GAME THE WINNER IS \e[0;31m%s\n",playerTwo);
-                checkRank(score2,playerTwo);
             }
             else
             {
                 printf("END GAME NO WINNER\n");
-                //checkRank(score1,playerOne);
-                //checkRank(score2,playerTwo);
             }
         }
         endGame:
@@ -561,8 +558,6 @@ void twoPlayers(int noMoves,int size, char passive[size][size],char playerOne[10
             else
             {
                 printf("END GAME NO WINNER\n");
-                checkRank(score1,playerOne);
-                checkRank(score2,playerTwo);
             }
         }
         endGame:
