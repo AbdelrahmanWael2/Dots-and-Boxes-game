@@ -51,11 +51,11 @@ void loadedGames()
         int size,noPlayers,noMoves,turn,score1,score2,counter;
         char x;
         char playerOne[10],playerTwo[10];
-        int array[11][11],array1[11][11],array2[11][11],turnArray[60],stor[60],stoc[60];
+        int turnArray[60]={0},stor[60]={0},stoc[60]={0};
+        FILE *gameFile;
 
         if(game==1)
         {
-            FILE *gameFile;
             gameFile=fopen("savedGame1.txt","r");
             fscanf(gameFile,"%c",&x);
             fclose(gameFile);
@@ -64,47 +64,12 @@ void loadedGames()
             {
                 gameFile=fopen("savedGame1.txt","r");
                 fscanf(gameFile,"%d",&size);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&turn);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&noPlayers);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&noMoves);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&score1);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&score2);
-                fscanf(gameFile,"\n");
-                fgets(playerOne,10,gameFile);
-                fgets(playerTwo,10,gameFile);
-                for(int i=0;i<size;i++)
-                {
-                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array[i][j]);fscanf(gameFile," ");}
-                }
-                fscanf(gameFile,"\n");
-                for(int i=0;i<size;i++)
-                {
-                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array1[i][j]);fscanf(gameFile," ");}
-                }
-                fscanf(gameFile,"\n");
-                for(int i=0;i<size;i++)
-                {
-                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
-                }
-                fscanf(gameFile,"\n");
-                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&counter);
-                fscanf(gameFile,"\n");
-                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
-                fscanf(gameFile,"\n");
-                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+                fclose(gameFile);
             }
         }
 
         if(game==2)
         {
-            FILE *gameFile;
             gameFile=fopen("savedGame2.txt","r");
             fscanf(gameFile,"%c",&x);
             fclose(gameFile);
@@ -113,48 +78,12 @@ void loadedGames()
             {
                 gameFile=fopen("savedGame2.txt","r");
                 fscanf(gameFile,"%d",&size);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&turn);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&noPlayers);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&noMoves);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&score1);
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&score2);
-                fscanf(gameFile,"\n");
-                fgets(playerOne,10,gameFile);
-                fgets(playerTwo,10,gameFile);
-                //int array[size][size],array1[size][size],array2[size][size];
-                for(int i=0;i<size;i++)
-                {
-                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array[i][j]);fscanf(gameFile," ");}
-                }
-                fscanf(gameFile,"\n");
-                for(int i=0;i<size;i++)
-                {
-                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array1[i][j]);fscanf(gameFile," ");}
-                }
-                fscanf(gameFile,"\n");
-                for(int i=0;i<size;i++)
-                {
-                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
-                }
-                fscanf(gameFile,"\n");
-                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
-                fscanf(gameFile,"\n");
-                fscanf(gameFile,"%d",&counter);
-                fscanf(gameFile,"\n");
-                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
-                fscanf(gameFile,"\n");
-                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+                fclose(gameFile);
             }
 
         }
         if(game==3)
         {
-            FILE *gameFile;
             gameFile=fopen("savedGame3.txt","r");
             fscanf(gameFile,"%c",&x);
             fclose(gameFile);
@@ -162,6 +91,17 @@ void loadedGames()
             else
             {
                 gameFile=fopen("savedGame3.txt","r");
+                fscanf(gameFile,"%d",&size);
+                fclose(gameFile);
+            }
+        }
+        int array[size][size],array1[size][size],array2[size][size];
+        setToZero(size,array);
+        setToZero(size,array1);
+        setToZero(size,array2);
+        if(game==1)
+        {
+            gameFile=fopen("savedGame1.txt","r");
                 fscanf(gameFile,"%d",&size);
                 fscanf(gameFile,"\n");
                 fscanf(gameFile,"%d",&turn);
@@ -199,8 +139,90 @@ void loadedGames()
                 for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
                 fscanf(gameFile,"\n");
                 for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
-            }
         }
+        if(game==2)
+        {
+            gameFile=fopen("savedGame2.txt","r");
+                fscanf(gameFile,"%d",&size);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&turn);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&noPlayers);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&noMoves);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&score1);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&score2);
+                fscanf(gameFile,"\n");
+                fgets(playerOne,10,gameFile);
+                fgets(playerTwo,10,gameFile);
+                //int array[size][size],array1[size][size],array2[size][size];
+                for(int i=0;i<size;i++)
+                {
+                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array[i][j]);fscanf(gameFile," ");}
+                }
+                fscanf(gameFile,"\n");
+                for(int i=0;i<size;i++)
+                {
+                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array1[i][j]);fscanf(gameFile," ");}
+                }
+                fscanf(gameFile,"\n");
+                for(int i=0;i<size;i++)
+                {
+                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
+                }
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&counter);
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+        }
+        if(game==3)
+        {
+            gameFile=fopen("savedGame3.txt","r");
+                fscanf(gameFile,"%d",&size);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&turn);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&noPlayers);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&noMoves);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&score1);
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&score2);
+                fscanf(gameFile,"\n");
+                fgets(playerOne,10,gameFile);
+                fgets(playerTwo,10,gameFile);
+                //int array[size][size],array1[size][size],array2[size][size];
+                for(int i=0;i<size;i++)
+                {
+                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array[i][j]);fscanf(gameFile," ");}
+                }
+                fscanf(gameFile,"\n");
+                for(int i=0;i<size;i++)
+                {
+                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array1[i][j]);fscanf(gameFile," ");}
+                }
+                fscanf(gameFile,"\n");
+                for(int i=0;i<size;i++)
+                {
+                    for(int j=0;j<size;j++){fscanf(gameFile,"%d",&array2[i][j]);fscanf(gameFile," ");}
+                }
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&turnArray[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                fscanf(gameFile,"%d",&counter);
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stor[j]);fscanf(gameFile," ");}
+                fscanf(gameFile,"\n");
+                for(int j=0;j<60;j++){fscanf(gameFile,"%d",&stoc[j]);fscanf(gameFile," ");}
+        }
+
         int  row, col, undos=0, removedlines[60];
         char passive[size][size],h=205,v=186,b=219;
         for(int i=0;i<size;i++)
@@ -513,8 +535,6 @@ void loadedGames()
                 else
                 {
                     printf("END GAME NO WINNER\n");
-                    checkRank(score1,playerOne);
-                    checkRank(score2,playerTwo);
                 }
             }
             endGame:
@@ -741,13 +761,10 @@ void loadedGames()
                 if(score2>score1)
                 {
                     printf("END GAME THE WINNER IS \e[0;31m%s\n",playerTwo);
-                    checkRank(score2,playerTwo);
                 }
                 else
                 {
                     printf("END GAME NO WINNER\n");
-                    checkRank(score1,playerOne);
-                    checkRank(score2,playerTwo);
                 }
             }
             endGame1:
