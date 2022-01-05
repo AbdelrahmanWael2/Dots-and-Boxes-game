@@ -338,33 +338,6 @@ void undo2(int size, int *score1, int *score2, int array1[size][size], int array
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void setToZero(int size, int arr[size][size])
 {
 
@@ -428,11 +401,13 @@ void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int sco
         for(int j=0;j<60;j++){fprintf(savedGame,"%d ",stor[j]);}
         fprintf(savedGame,"\n");
         for(int j=0;j<60;j++){fprintf(savedGame,"%d ",stoc[j]);}
+        printf("Your game is saved in saved game 1\n");
+        fclose(savedGame);
+
 
     }
     else
     {
-        fclose(savedGame);
         savedGame= fopen("savedGame2.txt","r");
         fscanf(savedGame,"%c",&y);
         if(y=='\0')
@@ -480,11 +455,12 @@ void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int sco
             for(int j=0;j<60;j++){fprintf(savedGame,"%d ",stor[j]);}
             fprintf(savedGame,"\n");
             for(int j=0;j<60;j++){fprintf(savedGame,"%d ",stoc[j]);}
+            printf("Your game is saved in saved game 2\n");
+            fclose(savedGame);
 
         }
         else
         {
-            fclose(savedGame);
             savedGame= fopen("savedGame3.txt","r");
             fscanf(savedGame,"%c",&z);
             if(z=='\0')
@@ -529,6 +505,8 @@ void saveGame(int size,int turn,int noPlayers,int noMovesLeft,int score1,int sco
                 for(int j=0;j<60;j++){fprintf(savedGame,"%d ",stor[j]);}
                 fprintf(savedGame,"\n");
                 for(int j=0;j<60;j++){fprintf(savedGame,"%d ",stoc[j]);}
+                printf("Your game is saved in saved game 3\n");
+                fclose(savedGame);
 
             }
             else
